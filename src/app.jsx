@@ -120,8 +120,6 @@ function App() {
     totalAmount: filteredAnalytics.totalAmount,
   };
 
-  const sourceCount = new Set(allTrades.map((trade) => trade.source)).size;
-  const politicianCount = new Set(allTrades.map((trade) => trade.politician)).size;
   const activeSectorLabel = selectedSector === 'All' ? 'All sectors' : selectedSector;
   const activeTickerLabel = selectedTicker === 'All' ? 'All tickers' : selectedTicker;
 
@@ -296,26 +294,6 @@ function App() {
           <div className="brand-lockup">
             <h1>Capitol Trade</h1>
           </div>
-          <aside className="card coverage-card">
-            <div className="status-cluster status-cluster-compact">
-              <div className="status-pill">
-                <span>Window</span>
-                <strong>2 years</strong>
-              </div>
-              <div className="status-pill">
-                <span>Sources</span>
-                <strong>{sourceCount}</strong>
-              </div>
-              <div className="status-pill">
-                <span>Politicians</span>
-                <strong>{politicianCount}</strong>
-              </div>
-              <div className="status-pill">
-                <span>Filters</span>
-                <strong>{activeFilterCount || 'Open'}</strong>
-              </div>
-            </div>
-          </aside>
         </div>
 
         <div className="ticker-tape">

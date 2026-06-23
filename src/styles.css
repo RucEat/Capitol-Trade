@@ -80,7 +80,7 @@ p {
 
 .masthead-bar {
   display: grid;
-  grid-template-columns: 1.5fr 0.9fr;
+  grid-template-columns: 1fr;
   gap: 10px;
   align-items: start;
 }
@@ -151,40 +151,6 @@ h2 {
   font-size: clamp(0.92rem, 1.3vw, 1.15rem);
   letter-spacing: -0.02em;
   text-transform: uppercase;
-}
-
-.status-cluster {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.status-cluster-compact .status-pill {
-  padding: 10px 11px;
-}
-
-.coverage-heading,
-.compact {
-  margin-bottom: 0;
-}
-
-.coverage-notes {
-  display: none;
-}
-
-.coverage-note {
-  display: grid;
-  gap: 3px;
-  padding-top: 8px;
-  border-top: 1px solid var(--line-soft);
-}
-
-.coverage-note span,
-.consistency-pill span,
-.lead-label,
-.dispatch-label {
-  color: var(--accent-2);
-  font-size: 0.68rem;
 }
 
 .status-pill,
@@ -814,7 +780,6 @@ tbody tr:hover td {
   .freshness-grid,
   .summary-ribbon,
   .consistency-overview,
-  .status-cluster,
   .blotter-grid,
   .lead-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -839,11 +804,9 @@ tbody tr:hover td {
   .ticker-tape,
   .controls-grid,
   .sector-grid,
-  .chips,
   .freshness-grid,
   .summary-ribbon,
   .consistency-overview,
-  .status-cluster,
   .blotter-grid,
   .lead-list {
     grid-template-columns: 1fr;
