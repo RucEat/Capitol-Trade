@@ -45,6 +45,33 @@ function toneClass(value) {
   return 'tone tone-flat';
 }
 
+function tickerBadge(ticker) {
+  const glyphs = {
+    NVDA: 'N',
+    MSFT: 'M',
+    AAPL: 'A',
+    AMZN: 'Z',
+    GOOGL: 'G',
+    META: 'T',
+    CRWD: 'C',
+    PANW: 'P',
+    AMD: 'D',
+    AVGO: 'V',
+    JPM: 'J',
+    ORCL: 'O',
+    PLTR: 'L',
+    NFLX: 'F',
+    COST: 'S',
+    UNH: 'U',
+    XOM: 'X',
+    TSLA: 'T',
+    V: 'V',
+    'BRK.B': 'B',
+  };
+
+  return glyphs[ticker] || ticker.slice(0, 1);
+}
+
 function App() {
   const [selectedSource, setSelectedSource] = useState('All');
   const [selectedType, setSelectedType] = useState('All');
@@ -165,9 +192,9 @@ function App() {
   const spotlightPoliticians = politicianRows.slice(0, 5);
   const consistencyOverview = [
     {
-      label: 'Operator',
+      label: 'Politician',
       value: topPolitician ? topPolitician.politician : 'N/A',
-      detail: topPolitician ? `${topPolitician.buys} buys` : 'No operator',
+      detail: topPolitician ? `${topPolitician.buys} buys` : 'No politician',
     },
     {
       label: 'Win rate',
@@ -203,10 +230,10 @@ function App() {
         : undefined,
     },
     {
-      id: 'operator',
-      label: 'Operator',
-      value: topPolitician ? topPolitician.politician : 'No operator',
-      detail: topPolitician ? `${formatPct(topPolitician.winRate * 100)} win rate` : 'No operator',
+      id: 'politician',
+      label: 'Politician',
+      value: topPolitician ? topPolitician.politician : 'No politician',
+      detail: topPolitician ? `${formatPct(topPolitician.winRate * 100)} win rate` : 'No politician',
       tone: topPolitician ? toneClass(topPolitician.avgReturn) : 'tone tone-flat',
       onClick: topPolitician ? () => setSelectedPolitician(topPolitician.politician) : undefined,
     },
@@ -227,8 +254,8 @@ function App() {
       tone: freshestIdea ? toneClass(freshestIdea.avgReturn || 0) : 'tone tone-flat',
     },
     {
-      id: 'operator',
-      label: 'Operator',
+      id: 'politician',
+      label: 'Politician',
       value: topPolitician ? topPolitician.politician : 'N/A',
       note: topPolitician ? `${formatPct(topPolitician.winRate * 100)} win rate` : 'No edge',
       tone: topPolitician ? toneClass(topPolitician.avgReturn) : 'tone tone-flat',
@@ -380,7 +407,12 @@ function App() {
                         <span className="rank-chip">{String(index + 1).padStart(2, '0')}</span>
                       </td>
                       <td>
-                        <strong className="ticker-label">{row.ticker}</strong>
+                        <strong className="ticker-label">
+                          <span className="ticker-badge" aria-hidden="true">
+                            {tickerBadge(row.ticker)}
+                          </span>
+                          {row.ticker}
+                        </strong>
                         <div className="subtle">{row.company}</div>
                       </td>
                       <td>{row.count}</td>
@@ -435,7 +467,12 @@ function App() {
                   </div>
                   <div className="idea-copy">
                     <div className="idea-row-top">
-                      <strong>{row.ticker}</strong>
+                      <strong>
+                        <span className="ticker-badge ticker-badge-inline" aria-hidden="true">
+                          {tickerBadge(row.ticker)}
+                        </span>
+                        {row.ticker}
+                      </strong>
                       <span>{row.count} politicians</span>
                     </div>
                     <div className="idea-row-meta">

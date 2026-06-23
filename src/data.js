@@ -1,7 +1,18 @@
 export const analysisWindowDays = 730;
 export const storageKey = 'capitol-trade:trades:v3';
 
-const sourceCycle = ['Quiver Quant', 'Unusual Whales', 'Capitol Trades'];
+const sourceCycle = [
+  'Quiver Quant',
+  'Unusual Whales',
+  'Capitol Trades',
+  'Senate Financial Disclosures',
+  'House Clerk Disclosures',
+  'SEC EDGAR',
+  'OpenSecrets',
+  'Financial Disclosure Portal',
+  'Congressional Stock Tracker',
+  'Public Records',
+];
 const returnPattern = [0.32, 0.14, 0.09, -0.06, 0.21, 0.27, -0.11, 0.05, 0.18, 0.12];
 const delayPattern = [12, 14, 16, 21, 34, 18, 27, 41, 13, 15];
 const amountPattern = [24000, 32000, 40000, 52000, 68000, 84000, 110000, 160000];
