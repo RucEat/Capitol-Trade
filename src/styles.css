@@ -600,7 +600,7 @@ tbody tr:hover td {
 }
 
 .secondary-grid {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 .chips {
@@ -617,50 +617,19 @@ tbody tr:hover td {
 }
 
 .timing-card,
-.consistency-card,
-.dispatch-card {
+.consistency-card {
   position: relative;
   overflow: hidden;
 }
 
 .timing-card::before,
-.consistency-card::before,
-.dispatch-card::before {
+.consistency-card::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: linear-gradient(180deg, rgba(143, 216, 255, 0.06), transparent 16%);
   opacity: 0.46;
-}
-
-.dispatch-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: end;
-  padding: 7px 0 8px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--line-soft);
-}
-
-.dispatch-label {
-  display: inline-block;
-  margin-bottom: 6px;
-}
-
-.dispatch-footer strong {
-  display: block;
-  font-size: 1.4rem;
-  letter-spacing: -0.04em;
-}
-.dispatch-item p {
-  font-style: normal;
-  line-height: 1.55;
-}
-
-.split-stack {
-  grid-template-columns: 1fr;
 }
 
 .freshness-grid {
@@ -681,7 +650,7 @@ tbody tr:hover td {
 }
 
 .closing-grid {
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1fr;
 }
 
 .consistency-overview {
@@ -703,18 +672,6 @@ tbody tr:hover td {
 .consistency-pill strong {
   font-size: 1rem;
   letter-spacing: -0.02em;
-}
-
-.dispatch-item {
-  padding: 7px 0 8px;
-  border-bottom: 1px solid var(--line-soft);
-}
-
-.dispatch-item strong {
-  display: block;
-  font-size: 1rem;
-  letter-spacing: -0.03em;
-  margin-bottom: 3px;
 }
 
 .tone {
@@ -831,8 +788,7 @@ tbody tr:hover td {
   .idea-row-meta,
   .operator-top,
   .operator-metrics,
-  .controls-head,
-  .dispatch-footer {
+  .controls-head {
     flex-direction: column;
     align-items: start;
   }

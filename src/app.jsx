@@ -163,26 +163,6 @@ function App() {
 
   const tickerTapeRows = ideaRows.slice(0, 8);
   const spotlightPoliticians = politicianRows.slice(0, 5);
-  const dispatchRows = [
-    {
-      id: 'cluster',
-      label: 'Crowd',
-      value: concentrationRows[0] ? concentrationRows[0].ticker : 'No crowding',
-      detail: concentrationRows[0] ? `${concentrationRows[0].count} buys` : 'No crowding',
-    },
-    {
-      id: 'source',
-      label: 'Source',
-      value: strongestSource ? strongestSource.source : 'No source',
-      detail: strongestSource ? `${strongestSource.count} filings` : 'No source',
-    },
-    {
-      id: 'sector',
-      label: 'Sector',
-      value: topSector ? topSector.sector : 'No sector',
-      detail: topSector ? `${topSector.count} buys` : 'No sector',
-    },
-  ];
   const consistencyOverview = [
     {
       label: 'Operator',
@@ -498,7 +478,7 @@ function App() {
         </aside>
       </section>
 
-      <section className="secondary-grid">
+      <section className="closing-grid">
         <article className="card timing-card">
           <div className="stack split-stack">
             <div className="bars">
@@ -530,9 +510,7 @@ function App() {
             </div>
           </div>
         </article>
-      </section>
 
-      <section className="closing-grid">
         <article className="card table-card consistency-card">
             <div className="consistency-overview">
               {consistencyOverview.map((item) => (
@@ -575,18 +553,6 @@ function App() {
             </table>
           </div>
         </article>
-
-        <aside className="card dispatch-card">
-          <div className="dispatch-list">
-            {dispatchRows.map((row) => (
-              <div className="dispatch-item" key={row.id}>
-                <span className="dispatch-label">{row.label}</span>
-                <strong>{row.value}</strong>
-                <p>{row.detail}</p>
-              </div>
-            ))}
-          </div>
-        </aside>
       </section>
 
     </div>
