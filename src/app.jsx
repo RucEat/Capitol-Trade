@@ -154,7 +154,6 @@ function App() {
     }))
     .sort((a, b) => b.count - a.count);
   const strongestSource = sourceRows[0];
-  const concentrationLeader = concentrationRows[0];
   const freshnessRows = ['Fresh', 'Lagged', 'Stale'].map((bucket) => {
     const count = filteredTrades.filter((trade) => getFreshnessLabel(trade.disclosureDelayDays) === bucket).length;
     return {
@@ -169,9 +168,9 @@ function App() {
   const dispatchRows = [
     {
       id: 'cluster',
-      label: 'Cluster',
-      value: concentrationLeader ? concentrationLeader.ticker : 'No crowding',
-      detail: concentrationLeader ? `${concentrationLeader.count} buys` : 'No crowding',
+      label: 'Crowd',
+      value: concentrationRows[0] ? concentrationRows[0].ticker : 'No crowding',
+      detail: concentrationRows[0] ? `${concentrationRows[0].count} buys` : 'No crowding',
     },
     {
       id: 'source',
@@ -522,36 +521,6 @@ function App() {
       </section>
 
       <section className="secondary-grid">
-        <article className="card narrative-card">
-          <div className="concentration-lead">
-            <div>
-              <span className="lead-label">Most crowded name</span>
-              <strong>{concentrationLeader ? concentrationLeader.ticker : 'N/A'}</strong>
-            </div>
-            <div className="lead-metrics">
-              <span>{concentrationLeader ? `${concentrationLeader.count} buys` : 'No buy flow'}</span>
-              <em>
-                {concentrationLeader
-                  ? `${Math.round(concentrationLeader.share * 100)}% of current buy flow`
-                  : 'Adjust the filters to restore crowding data'}
-              </em>
-            </div>
-          </div>
-          <div className="chips chips-compact">
-            {concentrationRows.slice(0, 10).map((row) => (
-              <button
-                className={`chip ${selectedTicker === row.ticker ? 'chip-active' : ''}`}
-                key={row.ticker}
-                onClick={() => setSelectedTicker((current) => (current === row.ticker ? 'All' : row.ticker))}
-              >
-                <strong>{row.ticker}</strong>
-                <span>{row.count} buys</span>
-                <em>{Math.round(row.share * 100)}% of buy flow</em>
-              </button>
-            ))}
-          </div>
-        </article>
-
         <article className="card timing-card">
           <div className="stack split-stack">
             <div className="bars">
