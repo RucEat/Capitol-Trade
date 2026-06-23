@@ -1,458 +1,190 @@
 export const analysisWindowDays = 730;
-export const storageKey = 'capitol-whales:trades:v1';
+export const storageKey = 'capitol-trade:trades:v3';
 
-export const sampleTrades = [
-  {
-    id: 't1',
-    politician: 'Nancy Pelosi',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'NVDA',
-    company: 'NVIDIA',
-    sector: 'Semiconductors',
-    tradeType: 'Buy',
-    source: 'Quiver Quant',
-    tradeDate: '2026-03-10',
-    filingDate: '2026-03-24',
-    disclosureDelayDays: 14,
-    shares: 1000,
-    amount: 500000,
-    closePriceAtTrade: 475,
-    currentPrice: 618,
-  },
-  {
-    id: 't2',
-    politician: 'Nancy Pelosi',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'MSFT',
-    company: 'Microsoft',
-    sector: 'Software',
-    tradeType: 'Buy',
-    source: 'Capitol Trades',
-    tradeDate: '2026-02-06',
-    filingDate: '2026-02-18',
-    disclosureDelayDays: 12,
-    shares: 300,
-    amount: 120000,
-    closePriceAtTrade: 417,
-    currentPrice: 449,
-  },
-  {
-    id: 't3',
-    politician: 'Josh Gottheimer',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'NVDA',
-    company: 'NVIDIA',
-    sector: 'Semiconductors',
-    tradeType: 'Buy',
-    source: 'Unusual Whales',
-    tradeDate: '2026-03-14',
-    filingDate: '2026-03-28',
-    disclosureDelayDays: 14,
-    shares: 250,
-    amount: 125000,
-    closePriceAtTrade: 482,
-    currentPrice: 618,
-  },
-  {
-    id: 't4',
-    politician: 'Josh Gottheimer',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'MSFT',
-    company: 'Microsoft',
-    sector: 'Software',
-    tradeType: 'Buy',
-    source: 'Quiver Quant',
-    tradeDate: '2026-01-22',
-    filingDate: '2026-02-03',
-    disclosureDelayDays: 12,
-    shares: 200,
-    amount: 80000,
-    closePriceAtTrade: 405,
-    currentPrice: 449,
-  },
-  {
-    id: 't5',
-    politician: 'Mark Green',
-    chamber: 'House',
-    party: 'R',
-    ticker: 'TSLA',
-    company: 'Tesla',
-    sector: 'Automotive',
-    tradeType: 'Buy',
-    source: 'Capitol Trades',
-    tradeDate: '2026-03-02',
-    filingDate: '2026-03-18',
-    disclosureDelayDays: 16,
-    shares: 150,
-    amount: 30000,
-    closePriceAtTrade: 210,
-    currentPrice: 195,
-  },
-  {
-    id: 't6',
-    politician: 'Mark Green',
-    chamber: 'House',
-    party: 'R',
-    ticker: 'AAPL',
-    company: 'Apple',
-    sector: 'Consumer Tech',
-    tradeType: 'Buy',
-    source: 'Unusual Whales',
-    tradeDate: '2026-04-11',
-    filingDate: '2026-04-23',
-    disclosureDelayDays: 12,
-    shares: 240,
-    amount: 50000,
-    closePriceAtTrade: 184,
-    currentPrice: 212,
-  },
-  {
-    id: 't7',
-    politician: 'Raja Krishnamoorthi',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'AAPL',
-    company: 'Apple',
-    sector: 'Consumer Tech',
-    tradeType: 'Buy',
-    source: 'Quiver Quant',
-    tradeDate: '2026-04-09',
-    filingDate: '2026-04-22',
-    disclosureDelayDays: 13,
-    shares: 200,
-    amount: 42000,
-    closePriceAtTrade: 181,
-    currentPrice: 212,
-  },
-  {
-    id: 't8',
-    politician: 'Raja Krishnamoorthi',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'NVDA',
-    company: 'NVIDIA',
-    sector: 'Semiconductors',
-    tradeType: 'Buy',
-    source: 'Capitol Trades',
-    tradeDate: '2026-03-13',
-    filingDate: '2026-03-27',
-    disclosureDelayDays: 14,
-    shares: 180,
-    amount: 90000,
-    closePriceAtTrade: 480,
-    currentPrice: 618,
-  },
-  {
-    id: 't9',
-    politician: 'Debbie Dingell',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'AMZN',
-    company: 'Amazon',
-    sector: 'Consumer Tech',
-    tradeType: 'Buy',
-    source: 'Quiver Quant',
-    tradeDate: '2026-02-18',
-    filingDate: '2026-03-05',
-    disclosureDelayDays: 15,
-    shares: 120,
-    amount: 25000,
-    closePriceAtTrade: 168,
-    currentPrice: 205,
-  },
-  {
-    id: 't10',
-    politician: 'Debbie Dingell',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'TSLA',
-    company: 'Tesla',
-    sector: 'Automotive',
-    tradeType: 'Sell',
-    source: 'Unusual Whales',
-    tradeDate: '2026-05-05',
-    filingDate: '2026-05-19',
-    disclosureDelayDays: 14,
-    shares: 80,
-    amount: 16000,
-    closePriceAtTrade: 205,
-    currentPrice: 195,
-  },
-  {
-    id: 't11',
-    politician: 'Pat Ryan',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'CRWD',
-    company: 'CrowdStrike',
-    sector: 'Cybersecurity',
-    tradeType: 'Buy',
-    source: 'Capitol Trades',
-    tradeDate: '2025-12-20',
-    filingDate: '2026-01-08',
-    disclosureDelayDays: 19,
-    shares: 150,
-    amount: 35000,
-    closePriceAtTrade: 357,
-    currentPrice: 434,
-  },
-  {
-    id: 't12',
-    politician: 'Markwayne Mullin',
-    chamber: 'Senate',
-    party: 'R',
-    ticker: 'XOM',
-    company: 'Exxon Mobil',
-    sector: 'Energy',
-    tradeType: 'Buy',
-    source: 'Quiver Quant',
-    tradeDate: '2026-04-02',
-    filingDate: '2026-04-18',
-    disclosureDelayDays: 16,
-    shares: 400,
-    amount: 43000,
-    closePriceAtTrade: 114,
-    currentPrice: 112,
-  },
-  {
-    id: 't13',
-    politician: 'Markwayne Mullin',
-    chamber: 'Senate',
-    party: 'R',
-    ticker: 'AMD',
-    company: 'AMD',
-    sector: 'Semiconductors',
-    tradeType: 'Buy',
-    source: 'Capitol Trades',
-    tradeDate: '2026-03-21',
-    filingDate: '2026-04-04',
-    disclosureDelayDays: 14,
-    shares: 300,
-    amount: 60000,
-    closePriceAtTrade: 182,
-    currentPrice: 161,
-  },
-  {
-    id: 't14',
-    politician: 'John Hickenlooper',
-    chamber: 'Senate',
-    party: 'D',
-    ticker: 'AAPL',
-    company: 'Apple',
-    sector: 'Consumer Tech',
-    tradeType: 'Buy',
-    source: 'Unusual Whales',
-    tradeDate: '2026-04-10',
-    filingDate: '2026-04-24',
-    disclosureDelayDays: 14,
-    shares: 150,
-    amount: 32000,
-    closePriceAtTrade: 181,
-    currentPrice: 212,
-  },
-  {
-    id: 't15',
-    politician: 'John Hickenlooper',
-    chamber: 'Senate',
-    party: 'D',
-    ticker: 'MSFT',
-    company: 'Microsoft',
-    sector: 'Software',
-    tradeType: 'Buy',
-    source: 'Quiver Quant',
-    tradeDate: '2026-02-03',
-    filingDate: '2026-02-16',
-    disclosureDelayDays: 13,
-    shares: 120,
-    amount: 48000,
-    closePriceAtTrade: 410,
-    currentPrice: 449,
-  },
-  {
-    id: 't16',
-    politician: 'Ron Wyden',
-    chamber: 'Senate',
-    party: 'D',
-    ticker: 'GOOGL',
-    company: 'Alphabet',
-    sector: 'Consumer Tech',
-    tradeType: 'Buy',
-    source: 'Capitol Trades',
-    tradeDate: '2026-03-08',
-    filingDate: '2026-03-22',
-    disclosureDelayDays: 14,
-    shares: 90,
-    amount: 18000,
-    closePriceAtTrade: 155,
-    currentPrice: 179,
-  },
-  {
-    id: 't17',
-    politician: 'Ron Wyden',
-    chamber: 'Senate',
-    party: 'D',
-    ticker: 'NVDA',
-    company: 'NVIDIA',
-    sector: 'Semiconductors',
-    tradeType: 'Buy',
-    source: 'Quiver Quant',
-    tradeDate: '2026-02-11',
-    filingDate: '2026-02-26',
-    disclosureDelayDays: 15,
-    shares: 60,
-    amount: 30000,
-    closePriceAtTrade: 468,
-    currentPrice: 618,
-  },
-  {
-    id: 't18',
-    politician: 'Rick Scott',
-    chamber: 'Senate',
-    party: 'R',
-    ticker: 'AAPL',
-    company: 'Apple',
-    sector: 'Consumer Tech',
-    tradeType: 'Buy',
-    source: 'Unusual Whales',
-    tradeDate: '2026-04-01',
-    filingDate: '2026-04-16',
-    disclosureDelayDays: 15,
-    shares: 110,
-    amount: 24000,
-    closePriceAtTrade: 181,
-    currentPrice: 212,
-  },
-  {
-    id: 't19',
-    politician: 'Rick Scott',
-    chamber: 'Senate',
-    party: 'R',
-    ticker: 'TSLA',
-    company: 'Tesla',
-    sector: 'Automotive',
-    tradeType: 'Buy',
-    source: 'Capitol Trades',
-    tradeDate: '2026-03-27',
-    filingDate: '2026-04-12',
-    disclosureDelayDays: 16,
-    shares: 70,
-    amount: 14000,
-    closePriceAtTrade: 208,
-    currentPrice: 195,
-  },
-  {
-    id: 't20',
-    politician: 'Hakeem Jeffries',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'MSFT',
-    company: 'Microsoft',
-    sector: 'Software',
-    tradeType: 'Buy',
-    source: 'Quiver Quant',
-    tradeDate: '2026-03-19',
-    filingDate: '2026-04-02',
-    disclosureDelayDays: 14,
-    shares: 100,
-    amount: 40000,
-    closePriceAtTrade: 406,
-    currentPrice: 449,
-  },
-  {
-    id: 't21',
-    politician: 'Hakeem Jeffries',
-    chamber: 'House',
-    party: 'D',
-    ticker: 'GOOGL',
-    company: 'Alphabet',
-    sector: 'Consumer Tech',
-    tradeType: 'Buy',
-    source: 'Capitol Trades',
-    tradeDate: '2026-02-25',
-    filingDate: '2026-03-10',
-    disclosureDelayDays: 13,
-    shares: 120,
-    amount: 26000,
-    closePriceAtTrade: 149,
-    currentPrice: 179,
-  },
-  {
-    id: 't22',
-    politician: 'Mark Kelly',
-    chamber: 'Senate',
-    party: 'D',
-    ticker: 'AMD',
-    company: 'AMD',
-    sector: 'Semiconductors',
-    tradeType: 'Buy',
-    source: 'Unusual Whales',
-    tradeDate: '2026-04-04',
-    filingDate: '2026-04-19',
-    disclosureDelayDays: 15,
-    shares: 170,
-    amount: 34000,
-    closePriceAtTrade: 177,
-    currentPrice: 161,
-  },
-  {
-    id: 't23',
-    politician: 'Mark Kelly',
-    chamber: 'Senate',
-    party: 'D',
-    ticker: 'CRWD',
-    company: 'CrowdStrike',
-    sector: 'Cybersecurity',
-    tradeType: 'Buy',
-    source: 'Quiver Quant',
-    tradeDate: '2026-02-14',
-    filingDate: '2026-03-01',
-    disclosureDelayDays: 15,
-    shares: 80,
-    amount: 22000,
-    closePriceAtTrade: 361,
-    currentPrice: 434,
-  },
-  {
-    id: 't24',
-    politician: 'Marjorie Taylor Greene',
-    chamber: 'House',
-    party: 'R',
-    ticker: 'XOM',
-    company: 'Exxon Mobil',
-    sector: 'Energy',
-    tradeType: 'Buy',
-    source: 'Capitol Trades',
-    tradeDate: '2026-03-11',
-    filingDate: '2026-03-26',
-    disclosureDelayDays: 15,
-    shares: 260,
-    amount: 29000,
-    closePriceAtTrade: 113,
-    currentPrice: 112,
-  },
-  {
-    id: 't25',
-    politician: 'Marjorie Taylor Greene',
-    chamber: 'House',
-    party: 'R',
-    ticker: 'NVDA',
-    company: 'NVIDIA',
-    sector: 'Semiconductors',
-    tradeType: 'Buy',
-    source: 'Unusual Whales',
-    tradeDate: '2026-04-08',
-    filingDate: '2026-04-23',
-    disclosureDelayDays: 15,
-    shares: 40,
-    amount: 21000,
-    closePriceAtTrade: 488,
-    currentPrice: 618,
-  },
+const sourceCycle = ['Quiver Quant', 'Unusual Whales', 'Capitol Trades'];
+const returnPattern = [0.32, 0.14, 0.09, -0.06, 0.21, 0.27, -0.11, 0.05, 0.18, 0.12];
+const delayPattern = [12, 14, 16, 21, 34, 18, 27, 41, 13, 15];
+const amountPattern = [24000, 32000, 40000, 52000, 68000, 84000, 110000, 160000];
+const tradeDatePattern = [
+  '2025-08-19',
+  '2025-09-12',
+  '2025-10-03',
+  '2025-10-28',
+  '2025-11-14',
+  '2025-12-09',
+  '2026-01-22',
+  '2026-02-11',
+  '2026-03-06',
+  '2026-03-26',
+  '2026-04-09',
+  '2026-04-24',
+  '2026-05-08',
 ];
+
+const tickerCatalog = {
+  NVDA: { company: 'NVIDIA', sector: 'Semiconductors', currentPrice: 618 },
+  MSFT: { company: 'Microsoft', sector: 'Software', currentPrice: 449 },
+  AAPL: { company: 'Apple', sector: 'Consumer Tech', currentPrice: 212 },
+  AMZN: { company: 'Amazon', sector: 'Consumer Tech', currentPrice: 205 },
+  GOOGL: { company: 'Alphabet', sector: 'Consumer Tech', currentPrice: 179 },
+  META: { company: 'Meta Platforms', sector: 'Consumer Tech', currentPrice: 587 },
+  CRWD: { company: 'CrowdStrike', sector: 'Cybersecurity', currentPrice: 434 },
+  PANW: { company: 'Palo Alto Networks', sector: 'Cybersecurity', currentPrice: 382 },
+  AMD: { company: 'AMD', sector: 'Semiconductors', currentPrice: 161 },
+  AVGO: { company: 'Broadcom', sector: 'Semiconductors', currentPrice: 195 },
+  JPM: { company: 'JPMorgan Chase', sector: 'Financials', currentPrice: 268 },
+  ORCL: { company: 'Oracle', sector: 'Software', currentPrice: 178 },
+  PLTR: { company: 'Palantir', sector: 'Software', currentPrice: 132 },
+  NFLX: { company: 'Netflix', sector: 'Media', currentPrice: 761 },
+  COST: { company: 'Costco', sector: 'Consumer', currentPrice: 934 },
+  UNH: { company: 'UnitedHealth', sector: 'Healthcare', currentPrice: 487 },
+  XOM: { company: 'Exxon Mobil', sector: 'Energy', currentPrice: 112 },
+  TSLA: { company: 'Tesla', sector: 'Automotive', currentPrice: 195 },
+  V: { company: 'Visa', sector: 'Payments', currentPrice: 302 },
+  'BRK.B': { company: 'Berkshire Hathaway', sector: 'Financials', currentPrice: 468 },
+};
+
+const politicianRoster = [
+  { politician: 'Nancy Pelosi', chamber: 'House', party: 'D', focus: ['NVDA', 'MSFT', 'AVGO'] },
+  { politician: 'Josh Gottheimer', chamber: 'House', party: 'D', focus: ['NVDA', 'AMZN', 'META'] },
+  { politician: 'Markwayne Mullin', chamber: 'Senate', party: 'R', focus: ['XOM', 'AMD', 'JPM'] },
+  { politician: 'John Hickenlooper', chamber: 'Senate', party: 'D', focus: ['AAPL', 'MSFT', 'META'] },
+  { politician: 'Rick Scott', chamber: 'Senate', party: 'R', focus: ['AAPL', 'TSLA', 'XOM'] },
+  { politician: 'Marjorie Taylor Greene', chamber: 'House', party: 'R', focus: ['NVDA', 'TSLA', 'XOM'] },
+  { politician: 'Debbie Dingell', chamber: 'House', party: 'D', focus: ['AMZN', 'AAPL', 'UNH'] },
+  { politician: 'Ro Khanna', chamber: 'House', party: 'D', focus: ['NVDA', 'CRWD', 'PLTR'] },
+  { politician: 'Tommy Tuberville', chamber: 'Senate', party: 'R', focus: ['XOM', 'NVDA', 'JPM'] },
+  { politician: 'Jared Moskowitz', chamber: 'House', party: 'D', focus: ['GOOGL', 'CRWD', 'AAPL'] },
+  { politician: 'Scott H. Peters', chamber: 'House', party: 'D', focus: ['MSFT', 'V', 'UNH'] },
+  { politician: 'Daniel S. Goldman', chamber: 'House', party: 'D', focus: ['META', 'AAPL', 'GOOGL'] },
+  { politician: 'Suzan DelBene', chamber: 'House', party: 'D', focus: ['MSFT', 'AAPL', 'AMZN'] },
+  { politician: 'Sara Jacobs', chamber: 'House', party: 'D', focus: ['CRWD', 'PANW', 'MSFT'] },
+  { politician: 'Gilbert Ray Cisneros, Jr.', chamber: 'House', party: 'D', focus: ['AMZN', 'GOOGL', 'V'] },
+  { politician: 'Vern Buchanan', chamber: 'House', party: 'R', focus: ['JPM', 'XOM', 'BRK.B'] },
+  { politician: 'Kevin Hern', chamber: 'House', party: 'R', focus: ['ORCL', 'MSFT', 'NVDA'] },
+  { politician: 'Roger Williams', chamber: 'House', party: 'R', focus: ['TSLA', 'JPM', 'XOM'] },
+  { politician: 'Donald S. Beyer, Jr.', chamber: 'House', party: 'D', focus: ['AAPL', 'MSFT', 'NVDA'] },
+  { politician: 'Pete Ricketts', chamber: 'Senate', party: 'R', focus: ['XOM', 'ORCL', 'JPM'] },
+  { politician: 'Mark R. Warner', chamber: 'Senate', party: 'D', focus: ['MSFT', 'META', 'GOOGL'] },
+  { politician: 'Jay Obernolte', chamber: 'House', party: 'R', focus: ['NVDA', 'PLTR', 'AMD'] },
+  { politician: 'Daniel Meuser', chamber: 'House', party: 'R', focus: ['JPM', 'XOM', 'META'] },
+  { politician: 'Lloyd Doggett', chamber: 'House', party: 'D', focus: ['UNH', 'AAPL', 'MSFT'] },
+  { politician: 'Julie Johnson', chamber: 'House', party: 'D', focus: ['GOOGL', 'AMZN', 'META'] },
+  { politician: 'Lori Trahan', chamber: 'House', party: 'D', focus: ['CRWD', 'NVDA', 'AAPL'] },
+  { politician: 'April McClain Delaney', chamber: 'House', party: 'D', focus: ['MSFT', 'AMZN', 'GOOGL'] },
+  { politician: 'Sheldon Whitehouse', chamber: 'Senate', party: 'D', focus: ['V', 'MSFT', 'AAPL'] },
+  { politician: 'Maria Elvira Salazar', chamber: 'House', party: 'R', focus: ['JPM', 'COST', 'XOM'] },
+  { politician: 'David McCormick', chamber: 'Senate', party: 'R', focus: ['META', 'NVDA', 'JPM'] },
+  { politician: 'Tina Smith', chamber: 'Senate', party: 'D', focus: ['AAPL', 'AMZN', 'GOOGL'] },
+  { politician: 'Susie Lee', chamber: 'House', party: 'D', focus: ['NFLX', 'META', 'MSFT'] },
+  { politician: 'Byron Donalds', chamber: 'House', party: 'R', focus: ['TSLA', 'NVDA', 'AMD'] },
+  { politician: 'Michael T. McCaul', chamber: 'House', party: 'R', focus: ['XOM', 'JPM', 'AVGO'] },
+  { politician: 'Jake Auchincloss', chamber: 'House', party: 'D', focus: ['CRWD', 'PANW', 'MSFT'] },
+  { politician: 'Ritchie Torres', chamber: 'House', party: 'D', focus: ['PLTR', 'NVDA', 'GOOGL'] },
+  { politician: 'Robert Bresnahan', chamber: 'House', party: 'R', focus: ['JPM', 'XOM', 'ORCL'] },
+  { politician: 'Scott Franklin', chamber: 'House', party: 'R', focus: ['AAPL', 'V', 'COST'] },
+  { politician: 'Bill Hagerty', chamber: 'Senate', party: 'R', focus: ['ORCL', 'MSFT', 'JPM'] },
+  { politician: 'John Boozman', chamber: 'Senate', party: 'R', focus: ['XOM', 'BRK.B', 'JPM'] },
+];
+
+function addDays(value, days) {
+  const date = parseDate(value);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function makeTrade({ id, politician, chamber, party, ticker, tradeType, source, tradeDate, filingDate, amount, shares, closePriceAtTrade }) {
+  const security = tickerCatalog[ticker];
+
+  return {
+    id,
+    politician,
+    chamber,
+    party,
+    ticker,
+    company: security.company,
+    sector: security.sector,
+    tradeType,
+    source,
+    tradeDate,
+    filingDate,
+    disclosureDelayDays: daysBetween(tradeDate, filingDate),
+    shares,
+    amount,
+    closePriceAtTrade,
+    currentPrice: security.currentPrice,
+  };
+}
+
+function createGeneratedTrades() {
+  const trades = [];
+
+  politicianRoster.forEach((profile, profileIndex) => {
+    const [firstTicker, secondTicker, optionalSellTicker] = profile.focus;
+
+    [firstTicker, secondTicker].forEach((ticker, slotIndex) => {
+      const source = sourceCycle[(profileIndex + slotIndex) % sourceCycle.length];
+      const tradeDate = tradeDatePattern[(profileIndex * 2 + slotIndex) % tradeDatePattern.length];
+      const delay = delayPattern[(profileIndex + slotIndex) % delayPattern.length];
+      const filingDate = addDays(tradeDate, delay);
+      const amount = amountPattern[(profileIndex + slotIndex) % amountPattern.length] + profileIndex * 1800 + slotIndex * 2200;
+      const targetReturn = returnPattern[(profileIndex + slotIndex) % returnPattern.length];
+      const currentPrice = tickerCatalog[ticker].currentPrice;
+      const closePriceAtTrade = Number((currentPrice / (1 + targetReturn)).toFixed(2));
+      const shares = Math.max(10, Math.round(amount / closePriceAtTrade));
+
+      trades.push(
+        makeTrade({
+          id: `g${profileIndex + 1}-${slotIndex + 1}`,
+          politician: profile.politician,
+          chamber: profile.chamber,
+          party: profile.party,
+          ticker,
+          tradeType: 'Buy',
+          source,
+          tradeDate,
+          filingDate,
+          amount,
+          shares,
+          closePriceAtTrade,
+        }),
+      );
+    });
+
+    if (optionalSellTicker && profileIndex % 4 === 0) {
+      const source = sourceCycle[(profileIndex + 2) % sourceCycle.length];
+      const tradeDate = tradeDatePattern[(profileIndex + 5) % tradeDatePattern.length];
+      const delay = delayPattern[(profileIndex + 3) % delayPattern.length];
+      const filingDate = addDays(tradeDate, delay);
+      const amount = amountPattern[(profileIndex + 3) % amountPattern.length] + profileIndex * 900;
+      const targetReturn = returnPattern[(profileIndex + 3) % returnPattern.length];
+      const currentPrice = tickerCatalog[optionalSellTicker].currentPrice;
+      const closePriceAtTrade = Number((currentPrice / (1 + targetReturn)).toFixed(2));
+      const shares = Math.max(10, Math.round(amount / closePriceAtTrade));
+
+      trades.push(
+        makeTrade({
+          id: `g${profileIndex + 1}-s`,
+          politician: profile.politician,
+          chamber: profile.chamber,
+          party: profile.party,
+          ticker: optionalSellTicker,
+          tradeType: 'Sell',
+          source,
+          tradeDate,
+          filingDate,
+          amount,
+          shares,
+          closePriceAtTrade,
+        }),
+      );
+    }
+  });
+
+  return trades;
+}
+
+export const sampleTrades = createGeneratedTrades();
 
 export function parseDate(value) {
   return new Date(`${value}T00:00:00Z`);
@@ -472,51 +204,142 @@ export function getFreshnessLabel(delayDays) {
   return 'Stale';
 }
 
+function safeNumber(value) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function normalizeTradeType(value) {
+  const normalized = String(value || 'Buy').trim().toLowerCase();
+  if (['buy', 'purchase', 'purchased', 'acquisition'].includes(normalized)) return 'Buy';
+  if (['sell', 'sale', 'sold', 'disposition'].includes(normalized)) return 'Sell';
+  if (normalized === 'exchange') return 'Exchange';
+  return normalized ? normalized[0].toUpperCase() + normalized.slice(1) : 'Buy';
+}
+
+function normalizeSource(value, fallbackSource) {
+  const source = String(value || fallbackSource || 'Imported').trim();
+  return source || 'Imported';
+}
+
+function normalizeDate(value) {
+  if (!value) return '';
+  const text = String(value).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+
+  const parsed = new Date(text);
+  if (Number.isNaN(parsed.getTime())) return '';
+
+  return parsed.toISOString().slice(0, 10);
+}
+
+function inferPrice({ closePriceAtTrade, currentPrice, amount, shares }) {
+  if (closePriceAtTrade > 0) return closePriceAtTrade;
+  if (amount > 0 && shares > 0) return Number((amount / shares).toFixed(2));
+  if (currentPrice > 0) return currentPrice;
+  return 1;
+}
+
+function splitCsvLine(line) {
+  const values = [];
+  let current = '';
+  let insideQuotes = false;
+
+  for (let index = 0; index < line.length; index += 1) {
+    const character = line[index];
+    const next = line[index + 1];
+
+    if (character === '"' && next === '"') {
+      current += '"';
+      index += 1;
+      continue;
+    }
+
+    if (character === '"') {
+      insideQuotes = !insideQuotes;
+      continue;
+    }
+
+    if (character === ',' && !insideQuotes) {
+      values.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    current += character;
+  }
+
+  values.push(current.trim());
+  return values;
+}
+
 export function normalizeTrade(raw, index) {
-  const tradeDate = raw.tradeDate || raw.transactionDate || raw.date;
-  const filingDate = raw.filingDate || raw.disclosureDate || raw.filedAt || tradeDate;
-  const amount = Number(raw.amount ?? raw.value ?? raw.transactionAmount ?? 0);
-  const closePriceAtTrade = Number(raw.closePriceAtTrade ?? raw.entryPrice ?? raw.price ?? 0);
-  const currentPrice = Number(raw.currentPrice ?? raw.marketPrice ?? raw.lastPrice ?? closePriceAtTrade);
+  const tradeDate = normalizeDate(
+    raw.tradeDate || raw.transactionDate || raw.transaction_date || raw.date || raw.traded_at,
+  );
+  const filingDate = normalizeDate(
+    raw.filingDate ||
+      raw.disclosureDate ||
+      raw.disclosure_date ||
+      raw.filedAt ||
+      raw.filed_at ||
+      raw.filed_at_date ||
+      tradeDate,
+  );
+  const amount = safeNumber(raw.amount ?? raw.value ?? raw.transactionAmount ?? raw.transaction_amount ?? raw.range_midpoint ?? 0);
+  const shares = safeNumber(raw.shares ?? raw.quantity ?? raw.share_count ?? 0);
+  const provisionalCurrentPrice = safeNumber(raw.currentPrice ?? raw.marketPrice ?? raw.market_price ?? raw.lastPrice ?? raw.last_price ?? 0);
+  const provisionalTradePrice = safeNumber(raw.closePriceAtTrade ?? raw.entryPrice ?? raw.entry_price ?? raw.price ?? raw.tradePrice ?? raw.trade_price ?? 0);
+  const closePriceAtTrade = inferPrice({
+    closePriceAtTrade: provisionalTradePrice,
+    currentPrice: provisionalCurrentPrice,
+    amount,
+    shares,
+  });
+  const currentPrice = provisionalCurrentPrice > 0 ? provisionalCurrentPrice : closePriceAtTrade;
   const disclosureDelayDays =
-    raw.disclosureDelayDays ?? daysBetween(tradeDate, filingDate);
+    safeNumber(raw.disclosureDelayDays ?? raw.disclosure_delay_days) || daysBetween(tradeDate, filingDate);
+  const ticker = String(raw.ticker ?? raw.symbol ?? raw.asset_ticker ?? '').toUpperCase().trim();
+  const security = tickerCatalog[ticker];
+  const politician = String(raw.politician ?? raw.name ?? raw.reporter ?? raw.member ?? '').trim() || 'Unknown';
 
   return {
-    id: raw.id ?? `${raw.politician ?? 'unknown'}-${raw.ticker ?? 'unknown'}-${index}`,
-    politician: raw.politician ?? raw.name ?? 'Unknown',
-    chamber: raw.chamber ?? raw.branch ?? 'Unknown',
-    party: raw.party ?? 'Unknown',
-    ticker: String(raw.ticker ?? raw.symbol ?? '').toUpperCase(),
-    company: raw.company ?? raw.issuer ?? raw.assetName ?? raw.ticker ?? 'Unknown',
-    tradeType: raw.tradeType ?? raw.type ?? 'Buy',
-    source: raw.source ?? 'Imported',
+    id: raw.id ?? `${politician}-${ticker || 'unknown'}-${index}`,
+    politician,
+    chamber: raw.chamber ?? raw.branch ?? raw.current_chamber ?? raw.member_type ?? 'Unknown',
+    party: raw.party ?? raw.current_party ?? 'Unknown',
+    ticker,
+    company: raw.company ?? raw.issuer ?? raw.assetName ?? raw.asset_name ?? security?.company ?? ticker ?? 'Unknown',
+    sector: raw.sector ?? security?.sector ?? 'Unknown',
+    tradeType: normalizeTradeType(raw.tradeType ?? raw.type ?? raw.txn_type ?? raw.transaction_type),
+    source: normalizeSource(raw.source, 'Imported'),
     tradeDate,
     filingDate,
     disclosureDelayDays,
-    shares: Number(raw.shares ?? raw.quantity ?? 0),
+    shares,
     amount,
     closePriceAtTrade,
     currentPrice,
   };
 }
 
-export function parseDisclosureText(text) {
+export function parseDisclosureText(text, fallbackSource = 'Imported') {
   const trimmed = text.trim();
   if (!trimmed) return [];
 
   const parseJson = () => {
     const parsed = JSON.parse(trimmed);
-    const rows = Array.isArray(parsed) ? parsed : parsed.trades || parsed.rows || [];
-    return rows.map((row, index) => normalizeTrade(row, index));
+    const rows = Array.isArray(parsed) ? parsed : parsed.trades || parsed.rows || parsed.trade_data || [];
+    return rows.map((row, index) => normalizeTrade({ ...row, source: row.source ?? fallbackSource }, index));
   };
 
   const parseCsv = () => {
     const [headerLine, ...lines] = trimmed.split(/\r?\n/).filter(Boolean);
-    const headers = headerLine.split(',').map((value) => value.trim());
+    const headers = splitCsvLine(headerLine).map((value) => value.trim());
     return lines.map((line, index) => {
-      const values = line.split(',').map((value) => value.trim());
+      const values = splitCsvLine(line);
       const row = Object.fromEntries(headers.map((header, i) => [header, values[i]]));
-      return normalizeTrade(row, index);
+      return normalizeTrade({ ...row, source: row.source ?? fallbackSource }, index);
     });
   };
 
@@ -525,6 +348,10 @@ export function parseDisclosureText(text) {
   } catch {
     return parseCsv();
   }
+}
+
+export function validateTradeRows(rows) {
+  return rows.filter((row) => row.politician && row.ticker && row.tradeDate && row.filingDate);
 }
 
 export function dedupeTrades(rows) {
@@ -661,6 +488,7 @@ export function buildAnalytics(rows) {
   const tickerReturns = new Map();
   const sectorCounts = new Map();
   const sectorReturns = new Map();
+
   for (const trade of buys) {
     tickerCounts.set(trade.ticker, (tickerCounts.get(trade.ticker) || 0) + 1);
     if (!tickerReturns.has(trade.ticker)) tickerReturns.set(trade.ticker, []);
@@ -670,6 +498,7 @@ export function buildAnalytics(rows) {
     if (!sectorReturns.has(sector)) sectorReturns.set(sector, []);
     sectorReturns.get(sector).push(pctChange(trade.closePriceAtTrade, trade.currentPrice));
   }
+
   const concentrationRows = Array.from(tickerCounts.entries())
     .map(([ticker, count]) => ({
       ticker,
@@ -677,6 +506,7 @@ export function buildAnalytics(rows) {
       share: buys.length ? count / buys.length : 0,
     }))
     .sort((a, b) => b.count - a.count || b.share - a.share);
+
   const ideaRows = Array.from(tickerReturns.entries())
     .map(([ticker, returns]) => {
       const count = tickerCounts.get(ticker) || 0;
@@ -692,6 +522,7 @@ export function buildAnalytics(rows) {
       };
     })
     .sort((a, b) => b.signalScore - a.signalScore || b.winRate - a.winRate || b.avgReturn - a.avgReturn);
+
   const sectorRows = Array.from(sectorReturns.entries())
     .map(([sector, returns]) => {
       const count = sectorCounts.get(sector) || 0;
