@@ -2,3 +2,5 @@ node_modules
 dist
 .pnpm-store
 .DS_Store
+.capitol-trade-preview.log
+.capitol-trade-preview.pid
