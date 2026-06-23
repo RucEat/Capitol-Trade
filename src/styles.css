@@ -243,7 +243,7 @@ h2 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.8rem;
+  min-width: 2rem;
   height: 1.8rem;
   border-radius: 999px;
   border: 1px solid rgba(143, 216, 255, 0.24);
@@ -251,11 +251,11 @@ h2 {
   color: var(--text);
   font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
 }
 
 .ticker-badge-inline {
-  min-width: 1.55rem;
+  min-width: 1.7rem;
   height: 1.55rem;
   font-size: 0.66rem;
 }

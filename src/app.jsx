@@ -45,31 +45,41 @@ function toneClass(value) {
   return 'tone tone-flat';
 }
 
-function tickerBadge(ticker) {
+function tickerBadge(ticker, company = '') {
   const glyphs = {
-    NVDA: 'N',
-    MSFT: 'M',
-    AAPL: 'A',
-    AMZN: 'Z',
-    GOOGL: 'G',
-    META: 'T',
-    CRWD: 'C',
-    PANW: 'P',
-    AMD: 'D',
-    AVGO: 'V',
-    JPM: 'J',
-    ORCL: 'O',
-    PLTR: 'L',
-    NFLX: 'F',
-    COST: 'S',
-    UNH: 'U',
-    XOM: 'X',
-    TSLA: 'T',
-    V: 'V',
-    'BRK.B': 'B',
+    NVDA: 'NV',
+    MSFT: 'MS',
+    AAPL: 'AP',
+    AMZN: 'AM',
+    GOOGL: 'AL',
+    META: 'MP',
+    CRWD: 'CR',
+    PANW: 'PA',
+    AMD: 'AMD',
+    AVGO: 'BR',
+    JPM: 'JP',
+    ORCL: 'OR',
+    PLTR: 'PL',
+    NFLX: 'NF',
+    COST: 'CO',
+    UNH: 'UH',
+    XOM: 'EM',
+    TSLA: 'TS',
+    V: 'VI',
+    'BRK.B': 'BH',
   };
 
-  return glyphs[ticker] || ticker.slice(0, 1);
+  if (glyphs[ticker]) return glyphs[ticker];
+
+  const initials = String(company)
+    .split(/[\s.&-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase();
+
+  return initials || ticker.slice(0, 2).toUpperCase();
 }
 
 function App() {
@@ -84,6 +94,10 @@ function App() {
   const allTrades = sampleTrades;
 
   const sources = useMemo(() => ['All', ...new Set(allTrades.map((trade) => trade.source))], [allTrades]);
+  const tickerCompanies = useMemo(
+    () => new Map(allTrades.map((trade) => [trade.ticker, trade.company])),
+    [allTrades],
+  );
   const tradeTypes = useMemo(() => ['All', ...new Set(allTrades.map((trade) => trade.tradeType))], [allTrades]);
   const chambers = useMemo(() => ['All', ...new Set(allTrades.map((trade) => trade.chamber))], [allTrades]);
   const politicianOptions = useMemo(
@@ -409,7 +423,7 @@ function App() {
                       <td>
                         <strong className="ticker-label">
                           <span className="ticker-badge" aria-hidden="true">
-                            {tickerBadge(row.ticker)}
+                            {tickerBadge(row.ticker, row.company)}
                           </span>
                           {row.ticker}
                         </strong>
@@ -468,7 +482,7 @@ function App() {
                     <div className="idea-row-top">
                       <strong>
                         <span className="ticker-badge ticker-badge-inline" aria-hidden="true">
-                          {tickerBadge(row.ticker)}
+                          {tickerBadge(row.ticker, tickerCompanies.get(row.ticker))}
                         </span>
                         {row.ticker}
                       </strong>
