@@ -771,12 +771,12 @@ tbody tr:hover td {
 
 @media (max-width: 760px) {
   .shell {
-    width: min(100vw - 14px, 1360px);
+    width: min(100vw - 12px, 1360px);
     padding-top: 8px;
   }
 
   h1 {
-    font-size: 2.1rem;
+    font-size: 2.05rem;
   }
 
   .masthead {
@@ -793,17 +793,13 @@ tbody tr:hover td {
   }
 
   .tape-item {
-    min-width: 118px;
+    min-width: 112px;
     flex: 0 0 auto;
   }
 
   .blotter-overview,
   .board-grid,
-  .closing-grid {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
+  .closing-grid,
   .blotter-grid,
   .lead-list,
   .sector-grid,
@@ -812,19 +808,36 @@ tbody tr:hover td {
   .freshness-grid,
   .consistency-overview {
     grid-template-columns: 1fr;
+    gap: 6px;
   }
 
-  .board-side,
+  .blotter-main {
+    order: 1;
+  }
+
   .board-main {
-    order: unset;
+    order: 1;
   }
 
-  .consensus-card .table-wrap {
-    overflow: visible;
+  .board-side {
+    order: 2;
   }
 
-  .consensus-card table {
+  .control-deck {
+    padding: 9px;
+  }
+
+  .controls-head {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .summary-ribbon {
     min-width: 0;
+  }
+
+  .action-button {
+    width: 100%;
   }
 
   .consensus-card th:nth-child(5),
@@ -834,21 +847,89 @@ tbody tr:hover td {
     display: none;
   }
 
-  .idea-list,
-  .operator-list {
-    gap: 6px;
+  .consensus-card .table-wrap {
+    overflow: visible;
   }
 
-  .idea-row,
-  .operator-card,
-  .sector-card,
-  .freshness-card,
-  .consistency-pill {
-    padding: 9px;
+  .consensus-card table {
+    min-width: 0;
+    display: block;
+  }
+
+  .consensus-card thead {
+    display: none;
+  }
+
+  .consensus-card tbody {
+    display: block;
+  }
+
+  .consensus-card tr {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .consensus-card td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+
+  .consensus-card td:nth-child(1) {
+    grid-row: 1 / span 2;
+    align-self: start;
+  }
+
+  .consensus-card td:nth-child(2) {
+    grid-column: 2;
+  }
+
+  .consensus-card td:nth-child(2) .subtle {
+    margin-top: 2px;
+  }
+
+  .consensus-card td:nth-child(3)::before {
+    content: 'Names';
+  }
+
+  .consensus-card td:nth-child(4)::before {
+    content: 'Ret';
+  }
+
+  .consensus-card td:nth-child(7)::before {
+    content: 'Filed';
+  }
+
+  .consensus-card td:nth-child(3),
+  .consensus-card td:nth-child(4),
+  .consensus-card td:nth-child(7) {
+    grid-column: 2;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--muted);
+  }
+
+  .consensus-card td:nth-child(3)::before,
+  .consensus-card td:nth-child(4)::before,
+  .consensus-card td:nth-child(7)::before {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.64rem;
+    color: var(--accent-2);
+  }
+
+  .consensus-card td:nth-child(5),
+  .consensus-card td:nth-child(6) {
+    display: none;
   }
 
   .idea-row {
     grid-template-columns: 1fr;
+    padding: 10px;
   }
 
   .idea-rank-rail {
@@ -906,36 +987,33 @@ tbody tr:hover td {
     grid-template-columns: 1fr;
   }
 
-  .table-card thead th:nth-child(3),
-  .table-card tbody td:nth-child(3),
-  .table-card thead th:nth-child(6),
-  .table-card tbody td:nth-child(6) {
-    display: none;
-  }
-
-  .table-card th,
-  .table-card td {
-    padding: 8px 5px;
-  }
-
-  .table-card tbody tr:hover td {
-    background: transparent;
-  }
-
   .table-card .ticker-label {
     gap: 6px;
-    font-size: 0.98rem;
+    font-size: 1rem;
   }
 
   .ticker-badge {
-    min-width: 1.8rem;
-    height: 1.65rem;
-    font-size: 0.66rem;
+    min-width: 1.75rem;
+    height: 1.55rem;
+    font-size: 0.62rem;
   }
 
   .ticker-badge-inline {
-    min-width: 1.55rem;
-    height: 1.45rem;
-    font-size: 0.61rem;
+    min-width: 1.45rem;
+    height: 1.35rem;
+    font-size: 0.58rem;
+  }
+
+  .idea-copy,
+  .operator-list {
+    gap: 6px;
+  }
+
+  .blotter-overview {
+    gap: 6px;
+  }
+
+  .blotter-grid {
+    grid-template-columns: 1fr;
   }
 }
