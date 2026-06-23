@@ -341,15 +341,15 @@ function App() {
         <div className="controls-head controls-head-tight">
           <div className="summary-ribbon">
             <div className="ribbon-stat">
-              <span>Fresh</span>
+              <span>Fresh rows</span>
               <strong>{freshnessRows[0].count}</strong>
             </div>
             <div className="ribbon-stat">
-              <span>Stale</span>
+              <span>Stale rows</span>
               <strong>{summary.staleCount}</strong>
             </div>
             <div className="ribbon-stat">
-              <span>Rows</span>
+              <span>In view</span>
               <strong>{datasetCount}</strong>
             </div>
           </div>
