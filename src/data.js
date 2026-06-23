@@ -1,3 +1,5 @@
+import { refreshedTrades } from './generated/live-trades.js';
+
 export const analysisWindowDays = 730;
 export const storageKey = 'capitol-trade:trades:v3';
 
@@ -195,7 +197,9 @@ function createGeneratedTrades() {
   return trades;
 }
 
-export const sampleTrades = createGeneratedTrades();
+const fallbackTrades = createGeneratedTrades();
+
+export const sampleTrades = refreshedTrades.length ? dedupeTrades(refreshedTrades) : fallbackTrades;
 
 export function parseDate(value) {
   return new Date(`${value}T00:00:00Z`);
