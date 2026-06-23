@@ -4,13 +4,7 @@ import {
   buildAnalytics,
   daysBetween,
   getFreshnessLabel,
-  loadStoredTrades,
-  mergeTradeSets,
-  parseDisclosureText,
   sampleTrades,
-  saveStoredTrades,
-  storageKey,
-  validateTradeRows,
 } from './data.js';
 
 const today = new Date('2026-06-23T12:00:00Z');
@@ -52,7 +46,6 @@ function toneClass(value) {
 }
 
 function App() {
-  const [storedTrades, setStoredTrades] = useState(() => loadStoredTrades());
   const [selectedSource, setSelectedSource] = useState('All');
   const [selectedType, setSelectedType] = useState('All');
   const [selectedChamber, setSelectedChamber] = useState('All');
@@ -61,13 +54,7 @@ function App() {
   const [selectedSector, setSelectedSector] = useState('All');
   const [selectedTicker, setSelectedTicker] = useState('All');
   const [tickerQuery, setTickerQuery] = useState('');
-  const [importSource, setImportSource] = useState('Imported');
-  const [importMode, setImportMode] = useState('merge');
-  const [importText, setImportText] = useState('');
-  const [importStatus, setImportStatus] = useState({ tone: 'idle', message: 'Paste JSON or CSV disclosures to replace the sample dataset.' });
-
-  const importedTrades = storedTrades;
-  const allTrades = importedTrades.length ? importedTrades : sampleTrades;
+  const allTrades = sampleTrades;
 
   const sources = useMemo(() => ['All', ...new Set(allTrades.map((trade) => trade.source))], [allTrades]);
   const tradeTypes = useMemo(() => ['All', ...new Set(allTrades.map((trade) => trade.tradeType))], [allTrades]);
@@ -124,7 +111,6 @@ function App() {
   const { buys, consensusRows, concentrationRows, ideaRows, sectorRows, politicianRows } = filteredAnalytics;
 
   const summary = {
-    tradeCount: filteredTrades.length,
     buyCount: buys.length,
     consensusTickers: consensusRows.length,
     avgDelay: filteredAnalytics.avgDelay,
@@ -143,8 +129,7 @@ function App() {
   const topIdea = ideaRows[0];
   const topPolitician = politicianRows[0];
   const topSector = sectorRows[0];
-  const importedModeLabel = importedTrades.length ? 'Imported dataset' : 'Sample dataset';
-  const datasetCount = importedTrades.length || sampleTrades.length;
+  const datasetCount = sampleTrades.length;
   const activeFilterCount =
     [
       selectedSource,
@@ -201,7 +186,6 @@ function App() {
       detail: topSector ? `${topSector.count} buys` : 'No sector',
     },
   ];
-  const activeFilterLabel = activeFilterCount ? `${activeFilterCount} active filters` : 'Full field in view';
   const consistencyOverview = [
     {
       label: 'Operator',
@@ -260,7 +244,7 @@ function App() {
     },
     {
       id: 'fresh-lead',
-      label: 'Fresh lead',
+      label: 'Fresh',
       value: freshestIdea ? freshestIdea.ticker : 'N/A',
       note: freshestIdea ? `${freshTrades.length} fresh rows` : 'No fresh edge',
       tone: freshestIdea ? toneClass(freshestIdea.avgReturn || 0) : 'tone tone-flat',
@@ -288,7 +272,7 @@ function App() {
     },
     {
       id: 'lag',
-      label: 'Avg lag',
+      label: 'Lag',
       value: `${summary.avgDelay.toFixed(1)}d`,
       note: 'Trade to filing',
       tone: 'tone tone-flat',
@@ -304,76 +288,6 @@ function App() {
     setSelectedSector('All');
     setSelectedTicker('All');
     setTickerQuery('');
-  }
-
-  function clearImportedData() {
-    if (typeof window !== 'undefined') {
-      window.localStorage.removeItem(storageKey);
-    }
-    setStoredTrades([]);
-    setImportStatus({
-      tone: 'idle',
-      message: 'Imported dataset cleared. The dashboard is back on the built-in sample rows.',
-    });
-    resetFilters();
-  }
-
-  function applyImportedRows(nextRows, mode) {
-    const validRows = validateTradeRows(nextRows);
-
-    if (!validRows.length) {
-      setImportStatus({
-        tone: 'error',
-        message: 'No valid disclosure rows were found. Include politician, ticker, trade date, and filing date.',
-      });
-      return;
-    }
-
-    const mergedRows = mode === 'replace' ? validRows : mergeTradeSets(storedTrades, validRows);
-    saveStoredTrades(mergedRows);
-    setStoredTrades(mergedRows);
-    setImportStatus({
-      tone: 'success',
-      message:
-        mode === 'replace'
-          ? `Loaded ${validRows.length} rows and replaced the current imported dataset.`
-          : `Added ${validRows.length} valid rows. Imported dataset now holds ${mergedRows.length} rows.`,
-    });
-    setImportText('');
-    resetFilters();
-  }
-
-  function handleImportSubmit() {
-    try {
-      const rows = parseDisclosureText(importText, importSource);
-      applyImportedRows(rows, importMode);
-    } catch {
-      setImportStatus({
-        tone: 'error',
-        message: 'The import could not be parsed. Use JSON arrays/objects or a CSV with headers.',
-      });
-    }
-  }
-
-  function handleFileImport(event) {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    file.text()
-      .then((text) => {
-        setImportText(text);
-        const rows = parseDisclosureText(text, importSource);
-        applyImportedRows(rows, importMode);
-      })
-      .catch(() => {
-        setImportStatus({
-          tone: 'error',
-          message: 'The selected file could not be read.',
-        });
-      })
-      .finally(() => {
-        event.target.value = '';
-      });
   }
 
   return (
@@ -449,9 +363,18 @@ function App() {
       <section className="card control-deck">
         <div className="controls-head controls-head-tight">
           <div className="summary-ribbon">
-            <RibbonStat label="Fresh" value={freshnessRows[0].count} />
-            <RibbonStat label="Stale" value={summary.staleCount} />
-            <RibbonStat label="Rows" value={datasetCount} />
+            <div className="ribbon-stat">
+              <span>Fresh</span>
+              <strong>{freshnessRows[0].count}</strong>
+            </div>
+            <div className="ribbon-stat">
+              <span>Stale</span>
+              <strong>{summary.staleCount}</strong>
+            </div>
+            <div className="ribbon-stat">
+              <span>Rows</span>
+              <strong>{datasetCount}</strong>
+            </div>
           </div>
           <button className="action-button action-button-muted" type="button" onClick={resetFilters}>
             Reset filters
@@ -719,60 +642,6 @@ function App() {
         </aside>
       </section>
 
-      <section className="card intake-deck">
-        <div className="controls-head">
-          <div className="summary-ribbon">
-            <RibbonStat label="Mode" value={importedModeLabel} />
-            <RibbonStat label="Rows" value={datasetCount} />
-            <RibbonStat label="View" value={summary.tradeCount} />
-          </div>
-        </div>
-
-        <div className="intake-grid">
-          <div className="intake-panel">
-            <div className="intake-controls">
-              <Filter
-                label="Source"
-                value={importSource}
-                onChange={setImportSource}
-                options={['Imported', 'Quiver Quant', 'Unusual Whales', 'Capitol Trades', 'Manual']}
-              />
-              <Filter
-                label="Mode"
-                value={importMode}
-                onChange={setImportMode}
-                options={['merge', 'replace']}
-              />
-            </div>
-
-            <label className="intake-upload" htmlFor="disclosure-file">
-              <span>File</span>
-              <input id="disclosure-file" type="file" accept=".json,.csv,.txt" onChange={handleFileImport} />
-            </label>
-          </div>
-
-          <div className="intake-panel intake-panel-wide">
-            <textarea
-              id="disclosure-text"
-              className="intake-textarea"
-              value={importText}
-              onChange={(event) => setImportText(event.target.value)}
-              placeholder='Paste JSON or CSV here. Example headers: politician,ticker,tradeDate,filingDate,tradeType,source,amount'
-            />
-            <div className="intake-actions">
-              <button className="action-button" type="button" onClick={handleImportSubmit}>
-                Import data
-              </button>
-              <button className="action-button action-button-muted" type="button" onClick={() => setImportText('')}>
-                Clear text
-              </button>
-              <button className="action-button action-button-muted" type="button" onClick={clearImportedData}>
-                Revert to sample
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
@@ -780,15 +649,6 @@ function App() {
 function SignalTile({ label, value, tone = 'default' }) {
   return (
     <div className={`signal-tile signal-tile-${tone}`}>
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </div>
-  );
-}
-
-function RibbonStat({ label, value }) {
-  return (
-    <div className="ribbon-stat">
       <span>{label}</span>
       <strong>{value}</strong>
     </div>

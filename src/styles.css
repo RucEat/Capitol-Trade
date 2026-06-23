@@ -126,7 +126,6 @@ p {
 .rank-chip,
 .lead-label,
 .dispatch-label,
-.dispatch-footer-label,
 .consistency-pill span,
 .coverage-note span {
   text-transform: uppercase;
@@ -183,8 +182,7 @@ h2 {
 .coverage-note span,
 .consistency-pill span,
 .lead-label,
-.dispatch-label,
-.dispatch-footer-label {
+.dispatch-label {
   color: var(--accent-2);
   font-size: 0.68rem;
 }
@@ -211,7 +209,6 @@ h2 {
 .freshness-card em,
 .ribbon-stat span,
 .operator-metrics span,
-.intake-upload span,
 .dispatch-item p,
 .lead-metrics span,
 .lead-metrics em,
@@ -261,7 +258,6 @@ h2 {
 .hero-thesis strong,
 .dispatch-item strong,
 .concentration-lead strong,
-.dispatch-footer strong,
 .operator-highlight strong {
   font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
   text-transform: uppercase;
@@ -354,63 +350,10 @@ h2 {
 }
 
 .control-deck,
-.intake-deck,
 .board-grid,
 .secondary-grid,
 .closing-grid {
   margin-bottom: 8px;
-}
-
-.intake-grid {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 10px;
-}
-
-.intake-panel {
-  display: grid;
-  gap: 8px;
-  padding: 10px;
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.024);
-  border: 1px solid rgba(124, 156, 189, 0.12);
-}
-
-.intake-panel-wide {
-  align-content: start;
-}
-
-.intake-controls {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.intake-upload {
-  display: grid;
-  gap: 8px;
-}
-
-.intake-upload input {
-  padding: 11px 0;
-}
-
-.intake-textarea {
-  min-height: 180px;
-  width: 100%;
-  resize: vertical;
-  border-radius: 9px;
-  border: 1px solid rgba(124, 156, 189, 0.16);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text);
-  padding: 14px;
-  outline: none;
-}
-
-.intake-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
 }
 
 .action-button {
@@ -447,6 +390,20 @@ h2 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
   min-width: 300px;
+}
+
+.ribbon-stat {
+  border-radius: 9px;
+  padding: 10px 11px;
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid rgba(124, 156, 189, 0.12);
+}
+
+.ribbon-stat strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
 }
 
 .controls-grid {
@@ -874,7 +831,6 @@ tbody tr:hover td {
 
   .ticker-tape,
   .controls-grid,
-  .intake-controls,
   .sector-grid,
   .freshness-grid,
   .summary-ribbon,
@@ -903,7 +859,6 @@ tbody tr:hover td {
 
   .ticker-tape,
   .controls-grid,
-  .intake-controls,
   .sector-grid,
   .chips,
   .freshness-grid,
