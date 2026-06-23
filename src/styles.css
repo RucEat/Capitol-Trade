@@ -771,45 +771,60 @@ tbody tr:hover td {
 
 @media (max-width: 760px) {
   .shell {
-    width: min(100vw - 18px, 1360px);
-    padding-top: 10px;
+    width: min(100vw - 14px, 1360px);
+    padding-top: 8px;
   }
 
   h1 {
-    font-size: 2.45rem;
+    font-size: 2.1rem;
   }
 
   .masthead {
-    gap: 8px;
-    margin-bottom: 8px;
+    gap: 6px;
+    margin-bottom: 6px;
   }
 
   .ticker-tape {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tape-item {
+    min-width: 118px;
+    flex: 0 0 auto;
   }
 
   .blotter-overview,
   .board-grid,
   .closing-grid {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 6px;
   }
 
-  .board-side {
-    order: 2;
+  .blotter-grid,
+  .lead-list,
+  .sector-grid,
+  .controls-grid,
+  .summary-ribbon,
+  .freshness-grid,
+  .consistency-overview {
+    grid-template-columns: 1fr;
   }
 
+  .board-side,
   .board-main {
-    order: 1;
+    order: unset;
   }
 
   .consensus-card .table-wrap {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
   }
 
   .consensus-card table {
-    min-width: 760px;
+    min-width: 0;
   }
 
   .consensus-card th:nth-child(5),
@@ -817,10 +832,6 @@ tbody tr:hover td {
   .consensus-card th:nth-child(6),
   .consensus-card td:nth-child(6) {
     display: none;
-  }
-
-  .sector-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .idea-list,
@@ -833,7 +844,7 @@ tbody tr:hover td {
   .sector-card,
   .freshness-card,
   .consistency-pill {
-    padding: 8px 9px;
+    padding: 9px;
   }
 
   .idea-row {
@@ -857,43 +868,34 @@ tbody tr:hover td {
 
   .summary-ribbon {
     min-width: 0;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .controls-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .controls-grid .search {
     grid-column: 1 / -1;
   }
 
-  .freshness-grid,
-  .consistency-overview,
-  .lead-list {
+  .sector-grid {
     grid-template-columns: 1fr;
   }
 
-  .blotter-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .ticker-tape,
-  .controls-grid,
-  .sector-grid,
-  .freshness-grid,
-  .summary-ribbon,
-  .consistency-overview,
-  .blotter-grid,
-  .lead-list {
-    grid-template-columns: 1fr;
+  .blotter-cell,
+  .lead-row,
+  .sector-card,
+  .freshness-card,
+  .consistency-pill {
+    padding: 10px;
   }
 
   .brand-lockup,
   .card,
   .control-deck {
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 12px;
   }
 
   .signal-tile-wide {
@@ -902,5 +904,38 @@ tbody tr:hover td {
 
   .idea-row {
     grid-template-columns: 1fr;
+  }
+
+  .table-card thead th:nth-child(3),
+  .table-card tbody td:nth-child(3),
+  .table-card thead th:nth-child(6),
+  .table-card tbody td:nth-child(6) {
+    display: none;
+  }
+
+  .table-card th,
+  .table-card td {
+    padding: 8px 5px;
+  }
+
+  .table-card tbody tr:hover td {
+    background: transparent;
+  }
+
+  .table-card .ticker-label {
+    gap: 6px;
+    font-size: 0.98rem;
+  }
+
+  .ticker-badge {
+    min-width: 1.8rem;
+    height: 1.65rem;
+    font-size: 0.66rem;
+  }
+
+  .ticker-badge-inline {
+    min-width: 1.55rem;
+    height: 1.45rem;
+    font-size: 0.61rem;
   }
 }
