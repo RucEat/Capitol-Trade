@@ -463,7 +463,6 @@ function App() {
                 >
                   <div className="idea-rank-rail">
                     <div className="idea-rank">{String(index + 1).padStart(2, '0')}</div>
-                    <span className="idea-score">{Math.round(row.signalScore)}</span>
                   </div>
                   <div className="idea-copy">
                     <div className="idea-row-top">

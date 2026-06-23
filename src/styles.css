@@ -542,12 +542,6 @@ tbody tr:hover td {
   min-width: 52px;
 }
 
-.idea-score {
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-}
-
 .idea-copy {
   display: grid;
   gap: 6px;
