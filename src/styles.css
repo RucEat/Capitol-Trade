@@ -772,11 +772,110 @@ tbody tr:hover td {
 @media (max-width: 760px) {
   .shell {
     width: min(100vw - 18px, 1360px);
-    padding-top: 14px;
+    padding-top: 10px;
   }
 
   h1 {
-    font-size: 2.8rem;
+    font-size: 2.45rem;
+  }
+
+  .masthead {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .ticker-tape {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .blotter-overview,
+  .board-grid,
+  .closing-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .board-side {
+    order: 2;
+  }
+
+  .board-main {
+    order: 1;
+  }
+
+  .consensus-card .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .consensus-card table {
+    min-width: 760px;
+  }
+
+  .consensus-card th:nth-child(5),
+  .consensus-card td:nth-child(5),
+  .consensus-card th:nth-child(6),
+  .consensus-card td:nth-child(6) {
+    display: none;
+  }
+
+  .sector-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .idea-list,
+  .operator-list {
+    gap: 6px;
+  }
+
+  .idea-row,
+  .operator-card,
+  .sector-card,
+  .freshness-card,
+  .consistency-pill {
+    padding: 8px 9px;
+  }
+
+  .idea-row {
+    grid-template-columns: 1fr;
+  }
+
+  .idea-rank-rail {
+    min-width: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .idea-row-top,
+  .idea-row-meta,
+  .operator-top,
+  .operator-metrics,
+  .controls-head {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .summary-ribbon {
+    min-width: 0;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .controls-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .controls-grid .search {
+    grid-column: 1 / -1;
+  }
+
+  .freshness-grid,
+  .consistency-overview,
+  .lead-list {
+    grid-template-columns: 1fr;
+  }
+
+  .blotter-grid {
+    grid-template-columns: 1fr;
   }
 
   .ticker-tape,
@@ -803,14 +902,5 @@ tbody tr:hover td {
 
   .idea-row {
     grid-template-columns: 1fr;
-  }
-
-  .idea-row-top,
-  .idea-row-meta,
-  .operator-top,
-  .operator-metrics,
-  .controls-head {
-    flex-direction: column;
-    align-items: start;
   }
 }
