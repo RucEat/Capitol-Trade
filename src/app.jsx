@@ -83,6 +83,7 @@ function tickerBadge(ticker, company = '') {
 }
 
 function App() {
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 760 : false;
   const [selectedSource, setSelectedSource] = useState('All');
   const [selectedType, setSelectedType] = useState('All');
   const [selectedChamber, setSelectedChamber] = useState('All');
@@ -203,7 +204,7 @@ function App() {
   });
 
   const tickerTapeRows = ideaRows.slice(0, 8);
-  const spotlightPoliticians = politicianRows.slice(0, 5);
+  const spotlightPoliticians = politicianRows.slice(0, isMobile ? 3 : 5);
   const consistencyOverview = [
     {
       label: 'Politician',
@@ -219,6 +220,29 @@ function App() {
       label: 'Lag',
       value: `${summary.avgDelay.toFixed(1)}d`,
       detail: 'Trade to filing',
+    },
+  ];
+  const mobileSummaryCards = [
+    {
+      label: 'Consensus',
+      value: topConsensus ? topConsensus.ticker : 'N/A',
+      detail: topConsensus ? `${topConsensus.count} politicians` : 'No cluster',
+      tone: topConsensus ? toneClass(topConsensus.avgReturn) : 'tone tone-flat',
+      onClick: topConsensus ? () => setSelectedTicker(topConsensus.ticker) : undefined,
+    },
+    {
+      label: 'Fresh',
+      value: freshnessRows[0]?.count ? `${freshnessRows[0].count}` : '0',
+      detail: 'fresh rows',
+      tone: 'tone tone-flat',
+      onClick: () => setSelectedFreshness('Fresh'),
+    },
+    {
+      label: 'Win rate',
+      value: formatPct(summary.winRate * 100),
+      detail: 'buys above entry',
+      tone: toneClass(summary.avgReturn),
+      onClick: topPolitician ? () => setSelectedPolitician(topPolitician.politician) : undefined,
     },
   ];
   const insightCards = [
@@ -313,7 +337,13 @@ function App() {
       <header className="masthead">
         <div className="masthead-bar">
           <div className="brand-lockup">
-            <h1>Capitol Trade</h1>
+            <div className="brand-mark" aria-hidden="true">
+              <img src="/favicon.svg" alt="" />
+            </div>
+            <div className="brand-copy">
+              <span className="brand-kicker">Public trade watch</span>
+              <h1>Capitol Trade</h1>
+            </div>
           </div>
         </div>
 
@@ -331,10 +361,19 @@ function App() {
           ))}
         </div>
 
-        <section className="blotter-overview">
-          <article className="card blotter-main">
-            <div className="blotter-grid">
-              {blotterCells.map((cell) => (
+        {isMobile ? (
+          <section className="card mobile-snapshot">
+            <div className="lead-list mobile-lead-list">
+              {mobileSummaryCards.map((card) => (
+                <button className="lead-row" key={card.label} onClick={card.onClick} type="button">
+                  <span className="lead-row-label">{card.label}</span>
+                  <strong className={card.tone}>{card.value}</strong>
+                  <em>{card.detail}</em>
+                </button>
+              ))}
+            </div>
+            <div className="blotter-grid mobile-blotter-grid">
+              {blotterCells.slice(0, 3).map((cell) => (
                 <div className="blotter-cell" key={cell.id}>
                   <span>{cell.label}</span>
                   <strong className={cell.tone}>{cell.value}</strong>
@@ -342,20 +381,34 @@ function App() {
                 </div>
               ))}
             </div>
-          </article>
+          </section>
+        ) : (
+          <section className="blotter-overview">
+            <article className="card blotter-main">
+              <div className="blotter-grid">
+                {blotterCells.map((cell) => (
+                  <div className="blotter-cell" key={cell.id}>
+                    <span>{cell.label}</span>
+                    <strong className={cell.tone}>{cell.value}</strong>
+                    <em>{cell.note}</em>
+                  </div>
+                ))}
+              </div>
+            </article>
 
-          <aside className="card blotter-side">
-            <div className="lead-list">
-              {insightCards.map((card) => (
-                <button className="lead-row" key={card.id} onClick={card.onClick} type="button">
-                  <span className="lead-row-label">{card.label}</span>
-                  <strong className={card.tone}>{card.value}</strong>
-                  <em>{card.detail}</em>
-                </button>
-              ))}
-            </div>
-          </aside>
-        </section>
+            <aside className="card blotter-side">
+              <div className="lead-list">
+                {insightCards.map((card) => (
+                  <button className="lead-row" key={card.id} onClick={card.onClick} type="button">
+                    <span className="lead-row-label">{card.label}</span>
+                    <strong className={card.tone}>{card.value}</strong>
+                    <em>{card.detail}</em>
+                  </button>
+                ))}
+              </div>
+            </aside>
+          </section>
+        )}
       </header>
 
       <section className="card control-deck">
@@ -445,86 +498,139 @@ function App() {
             </div>
           </article>
 
-          <article className="card sector-board">
-            <div className="sector-grid">
-              {sectorRows.slice(0, 8).map((row, index) => (
-                <button
-                  className={`sector-card ${selectedSector === row.sector ? 'sector-card-active' : ''}`}
-                  key={row.sector}
-                  onClick={() => setSelectedSector((current) => (current === row.sector ? 'All' : row.sector))}
-                >
-                  <div className="sector-head">
-                    <span className="sector-rank">{String(index + 1).padStart(2, '0')}</span>
-                    <strong>{row.sector}</strong>
-                  </div>
-                  <span>{row.count} buys</span>
-                  <em>{formatPct(row.winRate * 100)}</em>
-                  <em className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</em>
-                </button>
-              ))}
-            </div>
-          </article>
+          {!isMobile ? (
+            <article className="card sector-board">
+              <div className="sector-grid">
+                {sectorRows.slice(0, 8).map((row, index) => (
+                  <button
+                    className={`sector-card ${selectedSector === row.sector ? 'sector-card-active' : ''}`}
+                    key={row.sector}
+                    onClick={() => setSelectedSector((current) => (current === row.sector ? 'All' : row.sector))}
+                  >
+                    <div className="sector-head">
+                      <span className="sector-rank">{String(index + 1).padStart(2, '0')}</span>
+                      <strong>{row.sector}</strong>
+                    </div>
+                    <span>{row.count} buys</span>
+                    <em>{formatPct(row.winRate * 100)}</em>
+                    <em className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</em>
+                  </button>
+                ))}
+              </div>
+            </article>
+          ) : null}
         </div>
 
         <aside className="board-side">
-          <article className="card ideas-panel">
-            <div className="idea-list">
-              {ideaRows.slice(0, 8).map((row, index) => (
-                <button
-                  className={`idea-row ${selectedTicker === row.ticker ? 'idea-row-active' : ''}`}
-                  key={row.ticker}
-                  onClick={() => setSelectedTicker((current) => (current === row.ticker ? 'All' : row.ticker))}
-                >
-                  <div className="idea-rank-rail">
-                    <div className="idea-rank">{String(index + 1).padStart(2, '0')}</div>
-                  </div>
-                  <div className="idea-copy">
-                    <div className="idea-row-top">
+          {!isMobile ? (
+            <>
+              <article className="card ideas-panel">
+                <div className="idea-list">
+                  {ideaRows.slice(0, 8).map((row, index) => (
+                    <button
+                      className={`idea-row ${selectedTicker === row.ticker ? 'idea-row-active' : ''}`}
+                      key={row.ticker}
+                      onClick={() => setSelectedTicker((current) => (current === row.ticker ? 'All' : row.ticker))}
+                    >
+                      <div className="idea-rank-rail">
+                        <div className="idea-rank">{String(index + 1).padStart(2, '0')}</div>
+                      </div>
+                      <div className="idea-copy">
+                        <div className="idea-row-top">
+                          <strong>
+                            <span className="ticker-badge ticker-badge-inline" aria-hidden="true">
+                              {tickerBadge(row.ticker, tickerCompanies.get(row.ticker))}
+                            </span>
+                            {row.ticker}
+                          </strong>
+                          <span>{row.count} politicians</span>
+                        </div>
+                        <div className="idea-row-meta">
+                          <span>{row.count} mentions</span>
+                          <span>{formatPct(row.winRate * 100)}</span>
+                          <span className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</span>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </article>
+
+              <article className="card operators-panel">
+                <div className="operator-list">
+                  {spotlightPoliticians.map((row, index) => (
+                    <button
+                      className={`operator-card ${selectedPolitician === row.politician ? 'operator-card-active' : ''}`}
+                      key={row.politician}
+                      onClick={() => setSelectedPolitician((current) => (current === row.politician ? 'All' : row.politician))}
+                      type="button"
+                    >
+                      <div className="operator-top">
+                        <div className="operator-name">
+                          <span className="operator-rank">{String(index + 1).padStart(2, '0')}</span>
+                          <strong>{row.politician}</strong>
+                        </div>
+                        <strong className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</strong>
+                      </div>
+                      <div className="operator-metrics">
+                        <span>{row.buys} buys</span>
+                        <span>{formatPct(row.winRate * 100)}</span>
+                        <span>{row.consensusCount} tickers</span>
+                        <span>{row.avgDelay.toFixed(1)}d</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </article>
+            </>
+          ) : (
+            <article className="card mobile-list-panel">
+              <div className="mobile-list-stack">
+                {ideaRows.slice(0, 6).map((row, index) => (
+                  <button
+                    className={`mobile-list-row ${selectedTicker === row.ticker ? 'mobile-list-row-active' : ''}`}
+                    key={row.ticker}
+                    onClick={() => setSelectedTicker((current) => (current === row.ticker ? 'All' : row.ticker))}
+                    type="button"
+                  >
+                    <div className="mobile-list-top">
+                      <span className="mobile-list-rank">{String(index + 1).padStart(2, '0')}</span>
                       <strong>
                         <span className="ticker-badge ticker-badge-inline" aria-hidden="true">
                           {tickerBadge(row.ticker, tickerCompanies.get(row.ticker))}
                         </span>
                         {row.ticker}
                       </strong>
-                      <span>{row.count} politicians</span>
+                      <em>{row.count} politicians</em>
                     </div>
-                    <div className="idea-row-meta">
-                      <span>{row.count} mentions</span>
+                    <div className="mobile-list-bottom">
                       <span>{formatPct(row.winRate * 100)}</span>
                       <span className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</span>
                     </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </article>
-
-          <article className="card operators-panel">
-            <div className="operator-list">
-              {spotlightPoliticians.map((row, index) => (
-                <button
-                  className={`operator-card ${selectedPolitician === row.politician ? 'operator-card-active' : ''}`}
-                  key={row.politician}
-                  onClick={() => setSelectedPolitician((current) => (current === row.politician ? 'All' : row.politician))}
-                  type="button"
-                >
-                  <div className="operator-top">
-                    <div className="operator-name">
-                      <span className="operator-rank">{String(index + 1).padStart(2, '0')}</span>
+                  </button>
+                ))}
+                {spotlightPoliticians.map((row, index) => (
+                  <button
+                    className={`mobile-list-row ${selectedPolitician === row.politician ? 'mobile-list-row-active' : ''}`}
+                    key={row.politician}
+                    onClick={() => setSelectedPolitician((current) => (current === row.politician ? 'All' : row.politician))}
+                    type="button"
+                  >
+                    <div className="mobile-list-top">
+                      <span className="mobile-list-rank">{String(index + 1).padStart(2, '0')}</span>
                       <strong>{row.politician}</strong>
+                      <em>{row.buys} buys</em>
                     </div>
-                    <strong className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</strong>
-                  </div>
-                  <div className="operator-metrics">
-                    <span>{row.buys} buys</span>
-                    <span>{formatPct(row.winRate * 100)}</span>
-                    <span>{row.consensusCount} tickers</span>
-                    <span>{row.avgDelay.toFixed(1)}d</span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </article>
+                    <div className="mobile-list-bottom">
+                      <span>{formatPct(row.winRate * 100)}</span>
+                      <span className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</span>
+                      <span>{row.avgDelay.toFixed(1)}d</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </article>
+          )}
         </aside>
       </section>
 

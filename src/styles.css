@@ -107,6 +107,9 @@ p {
 .brand-lockup {
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .brand-lockup::after {
@@ -116,6 +119,34 @@ p {
   pointer-events: none;
   background: linear-gradient(90deg, transparent 0%, rgba(143, 216, 255, 0.11) 50%, transparent 100%);
   opacity: 0.3;
+}
+
+.brand-mark {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(143, 216, 255, 0.2);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.brand-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.brand-kicker {
+  color: var(--accent-2);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .section-kicker,
@@ -771,30 +802,48 @@ tbody tr:hover td {
 
 @media (max-width: 760px) {
   .shell {
-    width: min(100vw - 12px, 1360px);
-    padding-top: 8px;
+    width: min(100vw - 8px, 1360px);
+    padding: 6px 0 16px;
   }
 
   h1 {
-    font-size: 2.05rem;
+    font-size: 1.6rem;
+    max-width: 8ch;
   }
 
   .masthead {
-    gap: 6px;
-    margin-bottom: 6px;
+    gap: 5px;
+    margin-bottom: 4px;
+  }
+
+  .brand-lockup {
+    gap: 10px;
+  }
+
+  .brand-mark {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+  }
+
+  .brand-kicker {
+    font-size: 0.62rem;
   }
 
   .ticker-tape {
     display: flex;
-    gap: 6px;
+    gap: 5px;
     overflow-x: auto;
-    padding-bottom: 2px;
+    padding: 3px;
     -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
   }
 
   .tape-item {
-    min-width: 112px;
+    min-width: 104px;
     flex: 0 0 auto;
+    padding: 8px 9px;
+    scroll-snap-align: start;
   }
 
   .blotter-overview,
@@ -824,16 +873,31 @@ tbody tr:hover td {
   }
 
   .control-deck {
-    padding: 9px;
+    padding: 8px;
+    border-radius: 12px;
   }
 
   .controls-head {
-    gap: 6px;
-    margin-bottom: 6px;
+    gap: 8px;
+    margin-bottom: 8px;
   }
 
   .summary-ribbon {
     min-width: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mobile-snapshot {
+    display: grid;
+    gap: 8px;
+  }
+
+  .mobile-lead-list {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-blotter-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .action-button {
@@ -867,8 +931,8 @@ tbody tr:hover td {
   .consensus-card tr {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 4px 10px;
-    padding: 10px 0;
+    gap: 6px 10px;
+    padding: 12px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
@@ -889,6 +953,10 @@ tbody tr:hover td {
 
   .consensus-card td:nth-child(2) .subtle {
     margin-top: 2px;
+  }
+
+  .consensus-card td:nth-child(2) {
+    font-size: 0.94rem;
   }
 
   .consensus-card td:nth-child(3)::before {
@@ -929,7 +997,7 @@ tbody tr:hover td {
 
   .idea-row {
     grid-template-columns: 1fr;
-    padding: 10px;
+    padding: 10px 9px;
   }
 
   .idea-rank-rail {
@@ -969,7 +1037,66 @@ tbody tr:hover td {
   .sector-card,
   .freshness-card,
   .consistency-pill {
+    padding: 9px 10px;
+  }
+
+  .mobile-list-panel {
+    display: grid;
+  }
+
+  .mobile-list-stack {
+    display: grid;
+    gap: 6px;
+  }
+
+  .mobile-list-row {
+    appearance: none;
+    border: 1px solid rgba(124, 156, 189, 0.12);
+    background: rgba(255, 255, 255, 0.028);
+    color: inherit;
+    border-radius: 11px;
     padding: 10px;
+    text-align: left;
+    display: grid;
+    gap: 7px;
+  }
+
+  .mobile-list-row-active {
+    border-color: rgba(143, 216, 255, 0.46);
+    background: linear-gradient(180deg, rgba(143, 216, 255, 0.09), rgba(240, 191, 103, 0.05));
+  }
+
+  .mobile-list-top,
+  .mobile-list-bottom {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .mobile-list-top strong {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .mobile-list-top em,
+  .mobile-list-bottom span {
+    font-style: normal;
+    color: var(--muted);
+  }
+
+  .mobile-list-rank {
+    display: inline-flex;
+    min-width: 1.8rem;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 4px 7px;
+    background: rgba(240, 191, 103, 0.08);
+    border: 1px solid rgba(240, 191, 103, 0.16);
   }
 
   .brand-lockup,
@@ -1015,5 +1142,47 @@ tbody tr:hover td {
 
   .blotter-grid {
     grid-template-columns: 1fr;
+  }
+
+  .blotter-cell strong,
+  .lead-row strong {
+    font-size: 1rem;
+  }
+
+  .freshness-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .freshness-card {
+    min-height: 74px;
+  }
+
+  .consistency-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .consistency-pill {
+    min-height: 70px;
+  }
+
+  .board-side {
+    gap: 6px;
+  }
+
+  .table-card {
+    padding: 8px;
+  }
+
+  .consensus-card tr {
+    padding: 11px 0;
+  }
+
+  .consensus-card td:nth-child(2) {
+    max-width: 20ch;
+  }
+
+  .consensus-card td:nth-child(2) .subtle {
+    max-width: 22ch;
   }
 }
