@@ -83,10 +83,23 @@ function tickerBadge(ticker, company = '') {
 }
 
 function sourceTrailLabel(trade) {
+  if (!trade) return '';
   const pieces = [trade.source];
   if (trade.sourceTrail && trade.sourceTrail !== trade.source) pieces.push(trade.sourceTrail);
   if (trade.filingUrl) pieces.push('filing');
   return pieces.join(' · ');
+}
+
+function trailForRow(row, trades) {
+  if (!row) return '';
+  if (Array.isArray(row.rows) && row.rows.length) return sourceTrailLabel(row.rows[0]);
+
+  const match =
+    trades.find((trade) => trade.ticker === row.ticker && trade.politician === row.politician) ||
+    trades.find((trade) => trade.ticker === row.ticker) ||
+    row;
+
+  return sourceTrailLabel(match);
 }
 
 function App() {
@@ -566,7 +579,7 @@ function App() {
                           <span>{formatPct(row.winRate * 100)}</span>
                           <span className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</span>
                         </div>
-                        <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
+                        <div className="micro-trail">{trailForRow(row, allTrades)}</div>
                       </div>
                     </button>
                   ))}
@@ -595,7 +608,7 @@ function App() {
                         <span>{row.consensusCount} tickers</span>
                         <span>{row.avgDelay.toFixed(1)}d</span>
                       </div>
-                      <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
+                      <div className="micro-trail">{trailForRow(row, allTrades)}</div>
                     </button>
                   ))}
                 </div>
@@ -625,7 +638,7 @@ function App() {
                       <span>{formatPct(row.winRate * 100)}</span>
                       <span className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</span>
                     </div>
-                    <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
+                    <div className="micro-trail">{trailForRow(row, allTrades)}</div>
                   </button>
                 ))}
                 {spotlightPoliticians.map((row, index) => (
@@ -645,7 +658,7 @@ function App() {
                       <span className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</span>
                       <span>{row.avgDelay.toFixed(1)}d</span>
                     </div>
-                    <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
+                    <div className="micro-trail">{trailForRow(row, allTrades)}</div>
                   </button>
                 ))}
               </div>
@@ -715,7 +728,7 @@ function App() {
                     <td>
                       <strong>{row.politician}</strong>
                       <div className="subtle">{row.party} · {row.consensusCount}</div>
-                      <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
+                      <div className="micro-trail">{trailForRow(row, allTrades)}</div>
                     </td>
                     <td>{row.chamber}</td>
                     <td>{row.buys}</td>
