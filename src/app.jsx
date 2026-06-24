@@ -343,6 +343,11 @@ function App() {
             <div className="brand-copy">
               <span className="brand-kicker">Public trade watch</span>
               <h1>Capitol Trade</h1>
+              <div className="brand-trail">
+                <span>Weekly refresh</span>
+                <span>Public sources</span>
+                <span>No export</span>
+              </div>
             </div>
           </div>
         </div>
