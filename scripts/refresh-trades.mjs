@@ -9,6 +9,68 @@ const generatedPath = path.join(generatedDir, 'live-trades.js');
 const dataPath = path.join(root, 'src', 'data.js');
 
 const QUIVER_URL = 'https://www.quiverquant.com/congresstrading/';
+const CAPITOL_TRADES_ROWS = [
+  {
+    id: 'ct-20003800645',
+    politician: 'Jared Moskowitz',
+    chamber: 'House',
+    party: 'D',
+    ticker: 'COR',
+    company: 'Cencora Inc',
+    sector: 'Healthcare',
+    tradeType: 'Sell',
+    source: 'Capitol Trades',
+    tradeDate: '2026-05-06',
+    filingDate: '2026-06-22',
+    disclosureDelayDays: 44,
+    shares: 60,
+    amount: 10000,
+    closePriceAtTrade: 252.74,
+    currentPrice: 252.74,
+    sourceTrail: 'capitoltrades.com/trades/20003800645',
+    sourceUrl: 'https://www.capitoltrades.com/trades/20003800645',
+  },
+  {
+    id: 'ct-20003800647',
+    politician: 'Jared Moskowitz',
+    chamber: 'House',
+    party: 'D',
+    ticker: 'GILD',
+    company: 'Gilead Sciences Inc',
+    sector: 'Healthcare',
+    tradeType: 'Buy',
+    source: 'Capitol Trades',
+    tradeDate: '2026-05-06',
+    filingDate: '2026-06-22',
+    disclosureDelayDays: 44,
+    shares: 111,
+    amount: 10000,
+    closePriceAtTrade: 136.3,
+    currentPrice: 136.3,
+    sourceTrail: 'capitoltrades.com/trades/20003800647',
+    sourceUrl: 'https://www.capitoltrades.com/trades/20003800647',
+  },
+  {
+    id: 'ct-20003800640',
+    politician: 'Thomas Kean Jr',
+    chamber: 'House',
+    party: 'R',
+    ticker: 'AMCR',
+    company: 'Amcor PLC',
+    sector: 'Consumer',
+    tradeType: 'Buy',
+    source: 'Capitol Trades',
+    tradeDate: '2026-05-14',
+    filingDate: '2026-06-19',
+    disclosureDelayDays: 35,
+    shares: 389,
+    amount: 10000,
+    closePriceAtTrade: 38.59,
+    currentPrice: 38.59,
+    sourceTrail: 'capitoltrades.com/trades/20003800640',
+    sourceUrl: 'https://www.capitoltrades.com/trades/20003800640',
+  },
+];
 const QUIVER_HEADERS = {
   'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
   accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -224,6 +286,7 @@ function generateFallbackRows() {
       amount: 50000,
       closePriceAtTrade: 100,
       currentPrice: 120,
+      sourceTrail: 'fallback-seed',
     },
   ];
 }
@@ -251,13 +314,22 @@ async function main() {
     });
   })();
 
-  const liveRows = uniqueBy(await refreshedRows, (row) => [
+  const quiverRows = uniqueBy(await refreshedRows, (row) => [
     row.politician,
     row.ticker,
     row.tradeDate,
     row.filingDate,
     row.tradeType,
     row.amount,
+  ].join('|'));
+  const liveRows = uniqueBy([...quiverRows, ...CAPITOL_TRADES_ROWS], (row) => [
+    row.politician,
+    row.ticker,
+    row.tradeDate,
+    row.filingDate,
+    row.tradeType,
+    row.amount,
+    row.source,
   ].join('|'));
 
   const summary = summarize(liveRows);

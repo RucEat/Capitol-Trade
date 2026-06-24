@@ -46,7 +46,7 @@ body::before {
     linear-gradient(rgba(187, 210, 236, 0.016) 1px, transparent 1px),
     linear-gradient(90deg, rgba(187, 210, 236, 0.016) 1px, transparent 1px);
   background-size: 44px 44px;
-  opacity: 0.1;
+  opacity: 0.05;
 }
 
 button,
@@ -118,7 +118,7 @@ p {
   inset: 0;
   pointer-events: none;
   background: linear-gradient(90deg, transparent 0%, rgba(143, 216, 255, 0.11) 50%, transparent 100%);
-  opacity: 0.3;
+  opacity: 0.18;
 }
 
 .brand-mark {
@@ -231,6 +231,18 @@ h2 {
 .lead-metrics em,
 .consistency-pill em {
   color: var(--muted);
+}
+
+.micro-trail {
+  color: rgba(143, 216, 255, 0.72);
+  font-size: 0.62rem;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .status-pill strong,
@@ -643,6 +655,12 @@ tbody tr:hover td {
   text-align: left;
 }
 
+.operator-card .micro-trail,
+.idea-row .micro-trail,
+.mobile-list-row .micro-trail {
+  min-width: 0;
+}
+
 .operator-card-active {
   border-color: rgba(143, 216, 255, 0.5);
   background: linear-gradient(180deg, rgba(143, 216, 255, 0.08), rgba(240, 191, 103, 0.04));
@@ -795,6 +813,14 @@ tbody tr:hover td {
   border-color: rgba(143, 216, 255, 0.36);
 }
 
+tbody tr {
+  cursor: pointer;
+}
+
+tbody tr:hover td {
+  background: rgba(143, 216, 255, 0.045);
+}
+
 @media (max-width: 1120px) {
   .masthead-bar,
   .blotter-overview,
@@ -869,7 +895,7 @@ tbody tr:hover td {
   }
 
   .tape-item {
-    min-width: 104px;
+    min-width: 116px;
     flex: 0 0 auto;
     padding: 8px 9px;
     scroll-snap-align: start;
@@ -963,6 +989,10 @@ tbody tr:hover td {
     gap: 6px 10px;
     padding: 12px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .consensus-card tr:hover td {
+    background: transparent;
   }
 
   .consensus-card td {
@@ -1212,6 +1242,10 @@ tbody tr:hover td {
   }
 
   .consensus-card td:nth-child(2) .subtle {
+    max-width: 22ch;
+  }
+
+  .micro-trail {
     max-width: 22ch;
   }
 }

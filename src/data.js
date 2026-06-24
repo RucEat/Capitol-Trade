@@ -1,4 +1,5 @@
 import { refreshedTrades } from './generated/live-trades.js';
+import { capitolTradeRows } from './generated/capitol-trades.js';
 
 export const analysisWindowDays = 730;
 export const storageKey = 'capitol-trade:trades:v3';
@@ -199,7 +200,10 @@ function createGeneratedTrades() {
 
 const fallbackTrades = createGeneratedTrades();
 
-export const sampleTrades = refreshedTrades.length ? dedupeTrades(refreshedTrades) : fallbackTrades;
+export const sampleTrades = dedupeTrades([
+  ...(refreshedTrades.length ? refreshedTrades : fallbackTrades),
+  ...capitolTradeRows,
+]);
 
 export function parseDate(value) {
   return new Date(`${value}T00:00:00Z`);
@@ -317,6 +321,10 @@ export function normalizeTrade(raw, index) {
   const ticker = String(raw.ticker ?? raw.symbol ?? raw.asset_ticker ?? '').toUpperCase().trim();
   const security = tickerCatalog[ticker];
   const politician = String(raw.politician ?? raw.name ?? raw.reporter ?? raw.member ?? '').trim() || 'Unknown';
+  const source = normalizeSource(raw.source, 'Imported');
+  const sourceUrl = String(raw.sourceUrl ?? raw.source_url ?? raw.detailUrl ?? raw.detail_url ?? raw.url ?? '').trim();
+  const filingUrl = String(raw.filingUrl ?? raw.filing_url ?? raw.originalFilingUrl ?? raw.original_filing_url ?? '').trim();
+  const sourceTrail = String(raw.sourceTrail ?? raw.source_trail ?? raw.trail ?? '').trim();
 
   return {
     id: raw.id ?? `${politician}-${ticker || 'unknown'}-${index}`,
@@ -327,7 +335,10 @@ export function normalizeTrade(raw, index) {
     company: raw.company ?? raw.issuer ?? raw.assetName ?? raw.asset_name ?? security?.company ?? ticker ?? 'Unknown',
     sector: raw.sector ?? security?.sector ?? 'Unknown',
     tradeType: normalizeTradeType(raw.tradeType ?? raw.type ?? raw.txn_type ?? raw.transaction_type),
-    source: normalizeSource(raw.source, 'Imported'),
+    source,
+    sourceUrl,
+    filingUrl,
+    sourceTrail: sourceTrail || sourceUrl || filingUrl || source,
     tradeDate,
     filingDate,
     disclosureDelayDays,

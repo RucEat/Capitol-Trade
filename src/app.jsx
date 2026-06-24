@@ -82,6 +82,13 @@ function tickerBadge(ticker, company = '') {
   return initials || ticker.slice(0, 2).toUpperCase();
 }
 
+function sourceTrailLabel(trade) {
+  const pieces = [trade.source];
+  if (trade.sourceTrail && trade.sourceTrail !== trade.source) pieces.push(trade.sourceTrail);
+  if (trade.filingUrl) pieces.push('filing');
+  return pieces.join(' · ');
+}
+
 function App() {
   const isMobile = typeof window !== 'undefined' ? window.innerWidth <= 760 : false;
   const [selectedSource, setSelectedSource] = useState('All');
@@ -203,7 +210,7 @@ function App() {
     };
   });
 
-  const tickerTapeRows = ideaRows.slice(0, 8);
+  const tickerTapeRows = ideaRows.slice(0, 12);
   const spotlightPoliticians = politicianRows.slice(0, isMobile ? 3 : 5);
   const consistencyOverview = [
     {
@@ -358,6 +365,7 @@ function App() {
               className={`tape-item ${selectedTicker === row.ticker ? 'tape-item-active' : ''}`}
               key={row.ticker}
               onClick={() => setSelectedTicker((current) => (current === row.ticker ? 'All' : row.ticker))}
+              type="button"
             >
               <strong>{row.ticker}</strong>
               <span>{row.count} mentions</span>
@@ -474,7 +482,7 @@ function App() {
                 </thead>
                 <tbody>
                   {consensusRows.map((row, index) => (
-                    <tr key={row.ticker}>
+                    <tr key={row.ticker} onClick={() => setSelectedTicker((current) => (current === row.ticker ? 'All' : row.ticker))}>
                       <td>
                         <span className="rank-chip">{String(index + 1).padStart(2, '0')}</span>
                       </td>
@@ -486,6 +494,7 @@ function App() {
                           {row.ticker}
                         </strong>
                         <div className="subtle">{row.company}</div>
+                        <div className="micro-trail">{sourceTrailLabel(row)}</div>
                       </td>
                       <td>{row.count}</td>
                       <td>
@@ -507,11 +516,12 @@ function App() {
             <article className="card sector-board">
               <div className="sector-grid">
                 {sectorRows.slice(0, 8).map((row, index) => (
-                  <button
-                    className={`sector-card ${selectedSector === row.sector ? 'sector-card-active' : ''}`}
-                    key={row.sector}
-                    onClick={() => setSelectedSector((current) => (current === row.sector ? 'All' : row.sector))}
-                  >
+                    <button
+                      className={`sector-card ${selectedSector === row.sector ? 'sector-card-active' : ''}`}
+                      key={row.sector}
+                      onClick={() => setSelectedSector((current) => (current === row.sector ? 'All' : row.sector))}
+                      type="button"
+                    >
                     <div className="sector-head">
                       <span className="sector-rank">{String(index + 1).padStart(2, '0')}</span>
                       <strong>{row.sector}</strong>
@@ -536,6 +546,7 @@ function App() {
                       className={`idea-row ${selectedTicker === row.ticker ? 'idea-row-active' : ''}`}
                       key={row.ticker}
                       onClick={() => setSelectedTicker((current) => (current === row.ticker ? 'All' : row.ticker))}
+                      type="button"
                     >
                       <div className="idea-rank-rail">
                         <div className="idea-rank">{String(index + 1).padStart(2, '0')}</div>
@@ -555,6 +566,7 @@ function App() {
                           <span>{formatPct(row.winRate * 100)}</span>
                           <span className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</span>
                         </div>
+                        <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
                       </div>
                     </button>
                   ))}
@@ -583,6 +595,7 @@ function App() {
                         <span>{row.consensusCount} tickers</span>
                         <span>{row.avgDelay.toFixed(1)}d</span>
                       </div>
+                      <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
                     </button>
                   ))}
                 </div>
@@ -612,6 +625,7 @@ function App() {
                       <span>{formatPct(row.winRate * 100)}</span>
                       <span className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</span>
                     </div>
+                    <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
                   </button>
                 ))}
                 {spotlightPoliticians.map((row, index) => (
@@ -631,6 +645,7 @@ function App() {
                       <span className={toneClass(row.avgReturn)}>{formatPct(row.avgReturn)}</span>
                       <span>{row.avgDelay.toFixed(1)}d</span>
                     </div>
+                    <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
                   </button>
                 ))}
               </div>
@@ -700,6 +715,7 @@ function App() {
                     <td>
                       <strong>{row.politician}</strong>
                       <div className="subtle">{row.party} · {row.consensusCount}</div>
+                      <div className="micro-trail">{sourceTrailLabel(row.rows[0] || row)}</div>
                     </td>
                     <td>{row.chamber}</td>
                     <td>{row.buys}</td>
